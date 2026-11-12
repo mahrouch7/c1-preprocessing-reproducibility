@@ -1,0 +1,150 @@
+"""Plot frozen verified scores; no fitting, simulation or hypothesis testing.
+
+Run with the science Python and a graphics-only dependency directory. The
+source CSVs are retained beside this script's project. No test-driven selection.
+"""
+from pathlib import Path
+import sys, csv, json, hashlib, argparse
+
+parser=argparse.ArgumentParser()
+parser.add_argument('--graphics-deps',type=Path,required=True)
+args=parser.parse_args()
+sys.path.insert(0,str(args.graphics_deps))
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
+
+P=Path(__file__).resolve().parents[1]
+DATA=P/'data';OUT=P/'latex/figures'
+plt.rcParams.update({'font.family':'DejaVu Sans','font.size':8,
+    'axes.titlesize':8.5,'axes.labelsize':8,'xtick.labelsize':7.5,
+    'ytick.labelsize':7.5,'legend.fontsize':7.5,'pdf.fonttype':42,
+    'svg.fonttype':'none','axes.spines.top':False,'axes.spines.right':False})
+
+def read(name):
+    with (DATA/name).open(encoding='utf-8-sig',newline='') as f:return list(csv.DictReader(f))
+def export(fig,name):
+    for ext in ['pdf','svg','png']:
+        fig.savefig(OUT/(name+'.'+ext),dpi=180,facecolor='white')
+    plt.close(fig)
+
+noises=['awgn','lowfreq','impulsive','gain_plus_awgn','mixed_gain_additive']
+names=['AWGN','Low-frequency','Impulsive','Gain + AWGN','Mixed']
+colors={'RMS6':'#0072B2','RAW12':'#D55E00','MULTI18':'#009E73'}
+rows=read('robustness_curves_verified.csv')
+den=read('denoising_effects_verified.csv')
+fig=plt.figure(figsize=(7.25,3.45))
+gs=fig.add_gridspec(2,5,left=.075,right=.992,top=.76,bottom=.13,
+    hspace=.60,wspace=.23,height_ratios=[1.15,1])
+fig.suptitle('Classification, Training Exposure and Filtering across Noise Levels',
+             y=.985,fontsize=10,fontweight='bold')
+rep_handles=[Line2D([],[],color=v,lw=1.6,label=k) for k,v in colors.items()]
+rep_handles += [Line2D([],[],color='.25',lw=1.2,label='Clean-trained'),
+                Line2D([],[],color='.25',ls='--',lw=1.2,label='Noise-matched')]
+fig.legend(handles=rep_handles,loc='upper center',bbox_to_anchor=(.52,.955),ncol=5,
+           frameon=False,handlelength=1.8,columnspacing=1.2)
+fig.text(.012,.845,'(a) Unfiltered performance',fontsize=8.5,fontweight='bold')
+filter_colors={'median':'#0072B2','savgol':'#D55E00','wavelet_soft':'#009E73','wavelet_hard':'#CC79A7'}
+filter_labels={'median':'Median','savgol':'SG','wavelet_soft':'Soft','wavelet_hard':'Hard'}
+for i,noise in enumerate(noises):
+    ax=fig.add_subplot(gs[0,i]);ax.set_title(names[i],pad=4)
+    for rep,col in colors.items():
+        for protocol,ls in [('deployment','-'),('matched','--')]:
+            rr=sorted((r for r in rows if r['noise']==noise and r['representation']==rep and r['protocol']==protocol),key=lambda x:int(x['snr']))
+            assert len(rr)==5 and all(r['n']=='8' for r in rr)
+            ax.plot([int(r['snr']) for r in rr],[float(r['median_macro_f1_pct']) for r in rr],ls=ls,c=col,lw=1.25,marker='o',ms=2)
+    ax.set_ylim(0,103);ax.set_xlim(8,123);ax.set_xticks([10,60,120]);ax.set_yticks([0,50,100]);ax.grid(axis='y',lw=.35,alpha=.4)
+    ax.tick_params(labelbottom=False)
+    if i==0:ax.set_ylabel('Macro-F1 (%)')
+    else:ax.tick_params(labelleft=False)
+    ax=fig.add_subplot(gs[1,i])
+    for fil,col in filter_colors.items():
+        rr=sorted((r for r in den if r['noise']==noise and r['preprocessor']==fil),key=lambda x:int(x['snr']))
+        assert len(rr)==5 and all(r['n']=='24' for r in rr)
+        ax.plot([int(r['snr']) for r in rr],[float(r['median_paired_change_pp']) for r in rr],c=col,lw=1.25,marker='o',ms=2)
+    ax.axhline(0,c='.25',lw=.5);ax.set_xlim(8,123);ax.set_ylim(-6,44);ax.set_xticks([10,60,120]);ax.set_yticks([0,20,40]);ax.grid(axis='y',lw=.35,alpha=.4)
+    if i==0:ax.set_ylabel('Macro-F1 change\n(points)')
+    else:ax.tick_params(labelleft=False)
+fig.text(.012,.425,'(b) Filtering gain after clean training',fontsize=8.5,fontweight='bold')
+fig.legend(handles=[Line2D([],[],color=c,lw=1.5,label=filter_labels[k]) for k,c in filter_colors.items()],
+    loc='center right',bbox_to_anchor=(.998,.44),ncol=4,frameon=False,handlelength=1.5,columnspacing=1)
+fig.text(.54,.025,'Additive SNR (dB); gain error persists at high SNR',ha='center',fontsize=8)
+export(fig,'s10_fig02_snr_exposure_filtering_v2')
+
+scores=read('pipeline_scores_verified.csv');seeds=read('resnet_seeds_verified.csv');summary=read('resnet_summary_verified.csv')
+conditions=[('clean','deployment','shared_clean','Clean'),('awgn__20','deployment','clean_trained','AWGN20-D'),
+    ('awgn__20','matched','noise_matched','AWGN20-M'),('mixed_gain_additive__10','deployment','clean_trained','Mixed10-D'),
+    ('mixed_gain_additive__10','matched','noise_matched','Mixed10-M')]
+fig=plt.figure(figsize=(7.25,3.55));gs=fig.add_gridspec(2,2,left=.16,right=.98,top=.82,bottom=.12,
+    width_ratios=[1,1],height_ratios=[3.5,1],wspace=.20,hspace=.65)
+fig.suptitle('Waveform Comparison, Healthy Errors and the ABC–ABCG Signal Audit',y=.985,fontsize=10,fontweight='bold')
+axes=[fig.add_subplot(gs[0,0]),fig.add_subplot(gs[0,1])]
+seedcols=['#0072B2','#D55E00','#009E73']
+audit_counts=[]
+for row,(condition,protocol,exposure,label) in enumerate(conditions):
+    ml=[r for r in scores if r['study']=='robustness' and r['condition']==condition and r['protocol']==protocol and r['preprocessor']=='none' and r['representation'] in colors]
+    assert len(ml)==24,(condition,protocol,len(ml))
+    nn=sorted([r for r in seeds if r['condition']==condition and r['exposure']==exposure],key=lambda r:int(r['seed']))
+    assert len(nn)==3
+    sm=[r for r in summary if r['condition']==condition and r['exposure']==exposure]
+    assert len(sm)==1;sm=sm[0]
+    audit_counts.append({'condition':condition,'protocol':protocol,'ML_n':len(ml),'ResNet_n':len(nn)})
+    # Vertical offsets separate displayed points, with no randomness added.
+    for ax,key,nkey in zip(axes,['macro_f1','healthy_false_alarm'],['macro_f1','healthy_false_alarm_rate']):
+        yy=row+np.linspace(-.17,.17,len(ml));xx=[100*float(r[key]) for r in sorted(ml,key=lambda r:(r['classifier'],r['representation']))]
+        ax.scatter(xx,yy,s=9,c='.63',alpha=.75,lw=0,zorder=2)
+        if key=='macro_f1':
+            med=100*float(sm['ML_macro_f1_median'])
+            assert abs(float(np.median(xx))-med)<1e-8
+            ax.scatter([med],[row],marker='D',c='.18',s=20,zorder=4)
+        # FA median is not added: frozen summary supplies only the ML F1 median.
+        mean=100*float(sm[nkey+'_mean']);sd=100*float(sm[nkey+'_sd'])
+        ax.errorbar(mean,row+.25,xerr=sd,c='#3B3B3B',fmt='|',capsize=2,lw=1,zorder=3)
+        for j,r in enumerate(nn):ax.scatter(100*float(r[nkey]),row+.25+(-.075+j*.075),s=18,c=seedcols[j],edgecolor='white',lw=.25,zorder=5)
+for i,ax in enumerate(axes):
+    ax.set_xlim(-2,102);ax.set_ylim(4.65,-.5);ax.set_yticks(range(5));ax.set_yticklabels([c[3] for c in conditions] if i==0 else [])
+    ax.set_xticks([0,25,50,75,100]);ax.grid(axis='x',lw=.4,alpha=.35)
+    ax.set_title('(a) Macro-F1 (%)' if i==0 else '(b) Healthy false alarms (%)',loc='left',fontweight='bold',pad=8)
+fig.legend(handles=[Line2D([],[],color='.6',marker='o',ls='',ms=3,label='24 ML pipelines'),
+    Line2D([],[],color='.18',marker='D',ls='',ms=4,label='ML F1 median')]+[
+    Line2D([],[],color=seedcols[i],marker='o',ls='',ms=4,label='ResNet seed '+str(42+i)) for i in range(3)],
+    loc='upper center',bbox_to_anchor=(.54,.945),ncol=5,frameon=False,columnspacing=1,handletextpad=.4)
+ax=fig.add_subplot(gs[1,:]);audit=json.loads((DATA/'abc_abcg_audit_summary.json').read_text(encoding='utf-8-sig'))
+for i,(key,label) in enumerate([('full_I_relative_l2','Currents'),('full_V_relative_l2','Voltages')]):
+    d=audit['distributions'][key]
+    ax.plot([d['min'],d['max']],[i,i],c='#0072B2',lw=2)
+    ax.plot([d['median']],[i],marker='D',c='#0072B2',ms=4)
+ax.set_xscale('log');ax.set_xlim(2e-12,5e-10);ax.set_ylim(-.6,1.6);ax.set_yticks([0,1]);ax.set_yticklabels(['Currents','Voltages'])
+ax.set_xticks([1e-11,1e-10]);ax.grid(axis='x',alpha=.3,lw=.4)
+ax.set_title('(c) ABC–ABCG: paired relative difference (153 pairs)',loc='left',fontsize=8.5,fontweight='bold',pad=6)
+export(fig,'s10_fig04_resnet_errors_audit_v1')
+(P/'verification/plotting_counts.json').write_text(json.dumps({'score_panels':audit_counts,
+    'new_training_simulation_or_tests':False,'graphics_only_numpy':np.__version__},indent=2)+'\n',encoding='utf-8')
+print('Figures 2 and 4 exported as PDF, SVG, PNG; actual-PDF inspection pending.')
+
+# All mechanisms/filters are retained for voltage diagnostics. Currents are
+# summarized in the text; full paired I/V panels remain in the frozen long paper.
+from matplotlib.colors import Normalize
+tpi=read('e42_figure_data.csv')
+metrics=[('tpi_filter_median','(a) Transient energy ratio (TPI)'),
+         ('fidelity_filter_median','(b) Transient fidelity error'),
+         ('additive_response_ratio_median','(c) Additive-noise response ratio')]
+preps=['savgol','median','wavelet_soft','wavelet_hard']
+fig,axes=plt.subplots(3,1,figsize=(3.5,4.5))
+fig.subplots_adjust(left=.27,right=.87,bottom=.08,top=.86,hspace=.65)
+fig.suptitle('Voltage Transients at 10 dB:\nPreservation and Noise Response',y=.985,fontsize=9,fontweight='bold')
+for ri,(metric,title) in enumerate(metrics):
+    v=np.array([[float(next(r['median'] for r in tpi if r['metric']==metric and r['unit']=='V' and r['condition']==noise+'__10' and r['preprocessor']==prep)) for prep in preps] for noise in noises])
+    vmax=1 if ri!=1 else max(v.flat);norm=Normalize(0,vmax)
+    ax=axes[ri];im=ax.imshow(v,cmap='Blues',norm=norm,aspect='auto')
+    ax.set_title(title,fontsize=8,loc='left',pad=7)
+    ax.set_yticks(range(5),names,fontsize=7.5);ax.set_xticks(range(4),['SG','Median','Soft','Hard'],fontsize=7.5)
+    for yy in range(5):
+        for xx in range(4):
+            val=v[yy,xx];txt=r'$<10^{-10}$' if 0<val<1e-10 else f'{val:.3g}'
+            ax.text(xx,yy,txt,ha='center',va='center',fontsize=7.5,color='white' if norm(val)>.55 else '#17304A')
+    cb=fig.colorbar(im,ax=ax,fraction=.035,pad=.04);cb.set_ticks([0,vmax/2,vmax]);cb.set_ticklabels([f'{t:.2g}' for t in [0,vmax/2,vmax]]);cb.ax.tick_params(labelsize=7)
+    for sp in ax.spines.values():sp.set_visible(False)
+export(fig,'s10_fig05_voltage_preservation_noise_v2')

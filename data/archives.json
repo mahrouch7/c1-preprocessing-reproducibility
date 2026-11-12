@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "archives": [
+    {
+      "filename": "C1_predictions_metadata.zip",
+      "sha256": "b40be8567c85924c940d9de034fc2aeb21cfd1ae39323dad04819b0ba6c7e7f0",
+      "bytes": 1333211658,
+      "download_url": null,
+      "licence": "CC-BY-4.0"
+    },
+    {
+      "filename": "C1_clean_windows_features.zip",
+      "sha256": "07d82a9a0991717943e7ee5494e0c36d0cf942fc69f624f801480eccc80f3c7d",
+      "bytes": 759223785,
+      "download_url": null,
+      "licence": "CC-BY-4.0"
+    }
+  ],
+  "hosting_status": "NOT_YET_ASSIGNED"
+}

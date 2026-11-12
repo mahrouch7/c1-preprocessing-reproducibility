@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "c1-resnet1d"
+version = "0.1.0"
+description = "C1-E33: family-disjoint raw-waveform ResNet-1D comparator"
+requires-python = ">=3.12,<3.13"
+dependencies = ["numpy==2.3.5", "scipy==1.18.1", "scikit-learn==1.9.1", "torch==2.8.0"]
+
+[project.scripts]
+c1-resnet = "c1resnet.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

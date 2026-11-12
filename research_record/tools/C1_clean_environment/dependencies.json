@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "python": "CPython 3.12, Windows x64",
+  "profiles": {
+    "comparison": {
+      "numpy": "2.3.5",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "joblib": "1.6.0",
+      "threadpoolctl": "3.7.0",
+      "narwhals": "2.28.0",
+      "cloudpickle": "3.1.2"
+    },
+    "graphics": {
+      "numpy": "2.5.4",
+      "matplotlib": "3.11.2",
+      "contourpy": "1.4.0",
+      "cycler": "0.12.1",
+      "fonttools": "4.68.0",
+      "kiwisolver": "1.5.1",
+      "packaging": "26.3",
+      "pillow": "13.0.0",
+      "pyparsing": "3.3.3",
+      "python-dateutil": "4.0.0",
+      "tzdata": "2026.6",
+      "pypdf": "6.10.0",
+      "reportlab": "4.4.9",
+      "pypdfium2": "5.14.0",
+      "charset-normalizer": "3.5.2"
+    }
+  },
+  "version_evidence": {
+    "comparison": "Installed METADATA in the author-validated numerical environment; three scientific versions also recorded in analysis_receipt.json.",
+    "graphics": "Eleven existing graphics-environment packages plus four PDF packages read from the bundled PDF runtime METADATA/WHEEL; no package installation performed during preparation."
+  }
+}

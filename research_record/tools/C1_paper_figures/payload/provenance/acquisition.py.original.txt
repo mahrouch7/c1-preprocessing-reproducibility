@@ -1,0 +1,127 @@
+"""Static 3D alternative from frozen E32 load metadata, no new experiments."""
+from pathlib import Path
+import argparse
+from datetime import datetime, timezone, timedelta
+import hashlib
+import json
+import os
+import sys
+
+ROOT=Path(__file__).resolve().parents[1]
+
+
+def main(metadata,deps,settings=None,layout='3d'):
+    if deps:sys.path.insert(0,str(deps.resolve()))
+    os.environ['MPLCONFIGDIR']=str(ROOT/'qa/mpl_cache')
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    from matplotlib.ticker import FixedLocator, FixedFormatter
+    import numpy as np
+    import csv
+    digest='d231f5d52c6ca1f6affb625a035805a85e186e2e8e1bcdd38386e6e50593f5e5'
+    if settings:
+        assert hashlib.sha256(settings.read_bytes()).hexdigest()=='313aa9e94136fa343e775641d4671afacff1a1b93748aaf4191f2f28c4145ebf'
+        with settings.open(encoding='utf-8',newline='') as f: records=list(csv.DictReader(f))
+        assert len(records)==156 and {r['group'] for r in records}=={'shared_reference','healthy_only'}
+        common=sorted({tuple(float(r[k]) for k in ['k5','k6','k8']) for r in records if r['group']=='shared_reference'})
+        extra=sorted({tuple(float(r[k]) for k in ['k5','k6','k8']) for r in records if r['group']=='healthy_only'})
+    else:
+        assert hashlib.sha256(metadata.read_bytes()).hexdigest()==digest
+        rows=json.loads(metadata.read_text(encoding='utf-8'))
+        healthy=[r for r in rows if r['fault']=='noFault']
+        common=sorted({tuple(r['factors']) for r in healthy if r['healthy_anchor']})
+        extra=sorted({tuple(r['factors']) for r in healthy if not r['healthy_anchor']})
+        assert len(rows)==1839
+        assert {tuple(r['factors']) for r in rows if r['fault']!='noFault'}==set(common)
+    assert len(common)==39 and len(extra)==117
+    assert set(common).isdisjoint(extra)
+    assert all(.75<=v<=1.25 for p in common+extra for v in p)
+    output=ROOT/'output/pdf';output.mkdir(parents=True,exist_ok=True)
+    plt.rcParams.update({'font.family':'DejaVu Sans','font.size':8,
+                         'pdf.fonttype':42,'svg.fonttype':'path','axes.unicode_minus':False})
+    combined=layout=='composite'
+    inches=(3.6,4.7) if combined else (3.6,3.75)
+    fig=plt.figure(figsize=inches,facecolor='white')
+    ax=fig.add_axes([.04,.40,.85,.61] if combined else [.04,.20,.85,.77],projection='3d',proj_type='ortho')
+    ax.view_init(elev=22,azim=-55)
+    ax.set_box_aspect((1,1,1))
+    for axis in [ax.xaxis,ax.yaxis,ax.zaxis]:
+        axis.set_major_locator(FixedLocator([.75,1.,1.25]))
+        axis.set_major_formatter(FixedFormatter(['0.75','1.00','1.25']))
+        axis.set_pane_color((1,1,1,0))
+        axis._axinfo['grid'].update({'color':(.77,.82,.86,.65),'linewidth':.45})
+    ax.set(xlim=(.72,1.28),ylim=(.72,1.28),zlim=(.72,1.28))
+    ax.set_xlabel('B5 load factor',labelpad=4,fontsize=8)
+    ax.set_ylabel('B6 load factor',labelpad=4,fontsize=8)
+    ax.set_zlabel('B8 load factor',labelpad=4,fontsize=8)
+    ax.tick_params(axis='both',labelsize=7.5,pad=0)
+    extra=np.array(extra);common=np.array(common)
+    orange=ax.scatter(*extra.T,s=14,marker='^',color='#D55E00',alpha=.82,
+                      linewidths=.35,edgecolors='#A64700',depthshade=False,
+                      label='117 additional healthy-only settings')
+    blue=ax.scatter(*common.T,s=24,marker='o',facecolors='none',edgecolors='#0072B2',
+                    linewidths=.9,depthshade=False,label='39 shared reference settings')
+    fig.legend([blue,orange],[blue.get_label(),orange.get_label()],loc='lower center',
+               bbox_to_anchor=(.5,.275 if combined else .047),frameon=False,fontsize=7.3,
+               handletextpad=.5,labelspacing=.7)
+    if combined:
+        from matplotlib.patches import Rectangle
+        fig.text(.025,.965,'(a)',fontsize=9,fontweight='bold')
+        fig.text(.025,.24,'(b)',fontsize=9,fontweight='bold')
+        t=fig.add_axes([.08,.035,.86,.19])
+        t.set(xlim=(0,250),ylim=(0,1));t.set_axis_off()
+        t.add_patch(Rectangle((0,.34),50,.26,facecolor='#F0F2F4',edgecolor='#8496A2',linewidth=.6))
+        t.add_patch(Rectangle((50,.34),200,.26,facecolor='#DDEEF7',edgecolor='#0072B2',linewidth=.7))
+        t.text(25,.47,'Excluded',ha='center',va='center',fontsize=7.2)
+        t.text(150,.47,'200 ms; 8,000 samples/channel',ha='center',va='center',fontsize=7.2)
+        t.text(50,.86,'Fault onset',ha='center',fontsize=7.2)
+        t.text(250,.86,'Clearing command',ha='right',fontsize=7.2)
+        for x,label,align in [(0,'0','left'),(50,'50','center'),(250,'250 ms','right')]:
+            t.plot([x,x],[.26,.67],color='#263D4A',linewidth=.7,clip_on=False)
+            t.text(x,.09,label,ha=align,fontsize=7.5)
+    else:
+        fig.text(.5,.025,'Nominal load factors; fixed orthographic view',ha='center',fontsize=7,color='#334B5A')
+    # Fixed figure canvas preserves the intended column size across PDF/SVG.
+    base=output/('acquisition_window_3d_v1' if combined else 'load_support_3d')
+    fig.savefig(base.with_suffix('.pdf'),metadata={'Title':'Three-load acquisition settings: static 3D alternative','Author':'C1 research record'})
+    fig.savefig(base.with_suffix('.svg'))
+    svg=base.with_suffix('.svg')
+    svg.write_bytes(('\n'.join(line.rstrip() for line in svg.read_text(encoding='utf-8').splitlines())+'\n').encode('utf-8'))
+    plt.close(fig)
+    records=[{'group':g,'k5':float(p[0]),'k6':float(p[1]),'k8':float(p[2])} for g,points in [('shared_reference',common),('healthy_only',extra)] for p in points]
+    with (ROOT/'load_settings.csv').open('w',encoding='utf-8',newline='') as f:
+        w=csv.DictWriter(f,fieldnames=['group','k5','k6','k8'],lineterminator='\n');w.writeheader();w.writerows(records)
+    receipt={'status':'PROPOSED_3D_ALTERNATIVE_NOT_INTEGRATED',
+             'recorded_at':datetime.now(timezone(timedelta(hours=1))).isoformat(timespec='seconds'),
+             'source':'C1-E32 campaign_v1/metadata.json','metadata_sha256':digest,
+             'counts':{'shared_reference_settings':39,'additional_healthy_only_settings':117},
+             'load_bounds':[.75,1.25],'axes':['B5','B6','B8'],
+             'camera':{'projection':'orthographic','elevation_deg':22,'azimuth_deg':-55},
+             'figure_inches':list(inches),'matplotlib_version':matplotlib.__version__,
+             'numpy_version':np.__version__,'new_model_fits_or_noise_realizations':0,
+             'pdf_sha256':hashlib.sha256(base.with_suffix('.pdf').read_bytes()).hexdigest(),
+             'visual_QA':'PENDING actual-PDF rendering and inspection',
+             'scope':'Same load settings as the three projections. Static rendering; hidden points possible. No evidence of classification improvement or full 3D coverage.'}
+    receipt['rebuild_input']='load_settings.csv' if settings else 'C1-E32 campaign_v1/metadata.json'
+    receipt['coordinates_csv_sha256']=hashlib.sha256((ROOT/'load_settings.csv').read_bytes()).hexdigest()
+    if combined:
+        receipt.update({'status':'SELECTED_DISPLAY_REVIEW_PROSE_UPDATED_NOT_OVERLEAF_CONFIRMED',
+                        'panels':{'a':'same 39/117 load settings in 3D','b':'common half-open [50,250) ms interval; initial interval/clearing sample excluded'},
+                        'timing':{'window_ms':200,'sampling_rate_hz':40000,'samples_per_channel':8000}})
+    (ROOT/('composite_checks.json' if combined else 'source_checks.json')).write_bytes((json.dumps(receipt,indent=2)+'\n').encode())
+    if deps:
+        from importlib.metadata import distributions
+        packages=sorted(f"{d.metadata['Name']}=={d.version}" for d in distributions(path=[str(deps)]))
+        (ROOT/'plotting_requirements.txt').write_bytes(('\n'.join(packages)+'\n').encode())
+    print(json.dumps({'source_hash_verified':True,'settings':len(records),'output':str(base.relative_to(ROOT).as_posix())+'.pdf','visual_QA':'PENDING'}))
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser()
+    source=p.add_mutually_exclusive_group(required=True)
+    source.add_argument('--metadata',type=Path)
+    source.add_argument('--settings',type=Path)
+    p.add_argument('--deps',type=Path)
+    p.add_argument('--layout',choices=['3d','composite'],default='3d')
+    a=p.parse_args();main(a.metadata,a.deps,a.settings,a.layout)

@@ -1,0 +1,37 @@
+"""Reuse the existing vector physical-audit panel; no signal/score computation.
+
+Run after build_compact_figure.py using Python with pypdf. Optionally pass
+the full pdftoppm executable as the first argument to render the actual PDF.
+"""
+from pathlib import Path
+from datetime import datetime
+import hashlib, json, subprocess, sys
+from pypdf import PdfReader, PdfWriter, Transformation
+from pypdf._page import PageObject
+from pypdf.generic import RectangleObject
+
+P=Path(__file__).resolve().parent
+ROOT=next(p for p in P.parents if (p/'research_record/state/C1_quality_gate.md').exists())
+source=ROOT/'manuscript/C1P1_OJIES_15pages/latex/figures/o15_fig06_resnet_errors_audit_v1.pdf'
+top=PdfReader(P/'figures/comparison_top_intermediate.pdf').pages[0]
+original=PdfReader(source).pages[0]
+width=float(top.mediabox.width)
+top_height=float(top.mediabox.height)
+original_width=float(original.mediabox.width)
+crop_height=.34*float(original.mediabox.height)
+factor=width/original_width
+bottom_height=crop_height*factor
+original.cropbox=RectangleObject([0,0,original_width,crop_height])
+original.trimbox=RectangleObject([0,0,original_width,crop_height])
+page=PageObject.create_blank_page(width=width,height=top_height+bottom_height)
+page.merge_transformed_page(original,Transformation().scale(factor),over=True)
+page.merge_transformed_page(top,Transformation().translate(0,bottom_height),over=True)
+out=P/'figures/o15_fig06_temporal_comparison_e43_v1.pdf'
+writer=PdfWriter();writer.add_page(page)
+writer.add_metadata({'/Title':'Waveform classifiers and the ABC–ABCG input audit','/Subject':'Proposed replacement figure 6; saved scores and unchanged physical panel'})
+with out.open('wb') as f:writer.write(f)
+if len(sys.argv)>1:
+    subprocess.run([sys.argv[1],'-singlefile','-png','-r','150',str(out),str(out.with_suffix(''))],check=True,capture_output=True)
+provenance={'created':datetime.now().astimezone().isoformat(timespec='seconds'),'new_comparison_source':'data/metrics_per_run.csv and data/metrics_summary.csv','physical_audit_source':source.relative_to(ROOT).as_posix(),'physical_audit_pdf_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'physical_panel_policy':'Unchanged original vector panel (c), bottom 34 percent of source page; no signal calculations','output_sha256':hashlib.sha256(out.read_bytes()).hexdigest(),'active_manuscript_modified':False,'pagination_after_integration':'NOT_COMPILED_NOT_CONFIRMED'}
+(P/'figure_provenance.json').write_text(json.dumps(provenance,indent=2)+'\n',encoding='utf-8')
+print('Compact figure exported; inspect actual PDF rendering after any rebuild.')

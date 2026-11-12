@@ -1,0 +1,5 @@
+# The torch wheel backend is selected explicitly by Setup-Environment.ps1.
+numpy==2.3.5
+scipy==1.18.1
+scikit-learn==1.9.1
+torch==2.8.0

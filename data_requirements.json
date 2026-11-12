@@ -1,0 +1,152 @@
+[
+  {
+    "root": "campaign_root",
+    "relative": "metadata.json",
+    "kind": "file",
+    "needed_for": [
+      "compare"
+    ],
+    "description": "E32 cohort identity, fixed family-disjoint folds and clean six-channel windows",
+    "sha256": "d231f5d52c6ca1f6affb625a035805a85e186e2e8e1bcdd38386e6e50593f5e5"
+  },
+  {
+    "root": "campaign_root",
+    "relative": "scope.json",
+    "kind": "file",
+    "needed_for": [
+      "neural_preflight_or_training_reference"
+    ],
+    "description": "E32 cohort identity, fixed family-disjoint folds and clean six-channel windows",
+    "sha256": "565a4ddf60d482a08202a0c78755f7898b81834bfc37413d9ca8fdfe0589647e"
+  },
+  {
+    "root": "campaign_root",
+    "relative": "fold_design.json",
+    "kind": "file",
+    "needed_for": [
+      "neural_preflight_or_training_reference"
+    ],
+    "description": "E32 cohort identity, fixed family-disjoint folds and clean six-channel windows",
+    "sha256": "9e511e855472a04b10b9e94435fa8f9db7801feffee3d716e0a0ebfc93493d48"
+  },
+  {
+    "root": "campaign_root",
+    "relative": "base/clean.npy",
+    "kind": "file",
+    "needed_for": [
+      "neural_preflight_or_training_reference"
+    ],
+    "description": "E32 cohort identity, fixed family-disjoint folds and clean six-channel windows",
+    "sha256": "50e13fd926a1a943c517a5d8b0b333f8dc44e26a0260eeec551f564f640ddfd4"
+  },
+  {
+    "root": "ml_analysis_root",
+    "relative": "pooled_prediction_index.json",
+    "kind": "file",
+    "needed_for": [
+      "compare"
+    ],
+    "description": "Index plus all referenced pooled ML probability archives",
+    "sha256": "4297577e85d1e95f7175a7af21cfcd7b91a29fbb39de6d20205ccbfacafac9ea"
+  },
+  {
+    "root": "ml_analysis_root",
+    "relative": "analysis_receipt.json",
+    "kind": "file",
+    "needed_for": [
+      "export-ml"
+    ],
+    "description": "Hashes for the frozen metrics/per-class/paired tables",
+    "sha256": null
+  },
+  {
+    "root": "ml_analysis_root",
+    "relative": "metrics.csv",
+    "kind": "file",
+    "needed_for": [
+      "export-ml"
+    ],
+    "description": "Existing E32 numeric table; export verifies its receipt hash",
+    "sha256": null
+  },
+  {
+    "root": "ml_analysis_root",
+    "relative": "per_class_metrics.csv",
+    "kind": "file",
+    "needed_for": [
+      "export-ml"
+    ],
+    "description": "Existing E32 numeric table; export verifies its receipt hash",
+    "sha256": null
+  },
+  {
+    "root": "ml_analysis_root",
+    "relative": "paired_family_inference.csv",
+    "kind": "file",
+    "needed_for": [
+      "export-ml"
+    ],
+    "description": "Existing E32 numeric table; export verifies its receipt hash",
+    "sha256": null
+  },
+  {
+    "root": "resnet_run",
+    "relative": "run_manifest.json",
+    "kind": "file",
+    "needed_for": [
+      "compare"
+    ],
+    "description": "Frozen neural run identity; keep jobs/*/*/*/completed.json and all referenced non-checkpoint files",
+    "sha256": "008b6db7e388a1a9f009ac24f26d5667ab60e1a501821661baf9fb49a5fb7f96"
+  },
+  {
+    "root": "resnet_run",
+    "relative": "jobs",
+    "kind": "directory",
+    "needed_for": [
+      "compare"
+    ],
+    "description": "All folds and all three seeds, including predictions, receipts and referenced training-history files",
+    "sha256": null
+  },
+  {
+    "root": "resnet_audit",
+    "relative": ".",
+    "kind": "file",
+    "needed_for": [
+      "compare"
+    ],
+    "description": "Frozen local retrieval verification receipt",
+    "sha256": "c04bc400f44ecb02a47dd40bef5c195f0636c20ab48fc8af81c358ae0b1e5040"
+  },
+  {
+    "root": "inceptiontime_run",
+    "relative": "run_manifest.json",
+    "kind": "file",
+    "needed_for": [
+      "compare"
+    ],
+    "description": "Frozen neural run identity; keep jobs/*/*/*/completed.json and all referenced non-checkpoint files",
+    "sha256": "b30a93c9e2b54283b2c2b3fcfd29d9461c738e69cc9094e48c305df59b4708c9"
+  },
+  {
+    "root": "inceptiontime_run",
+    "relative": "jobs",
+    "kind": "directory",
+    "needed_for": [
+      "compare"
+    ],
+    "description": "All folds and all three seeds, including predictions, receipts and referenced training-history files",
+    "sha256": null
+  },
+  {
+    "root": "inceptiontime_audit",
+    "relative": ".",
+    "kind": "file",
+    "needed_for": [
+      "compare"
+    ],
+    "description": "Frozen local retrieval verification receipt",
+    "sha256": "17f400f17208830a76767b76ad87965b5b28d6d07d98596cbbec3448c3901046"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "recorded_local": "2026-11-11T15:55:46+01:00",
+  "licence": "CC-BY-4.0",
+  "attribution": "Maher Kouraichi, Majdi Mansouri and Anis Sakly; the C1 study",
+  "archives": {
+    "C1_clean_windows_features.zip": "07d82a9a0991717943e7ee5494e0c36d0cf942fc69f624f801480eccc80f3c7d",
+    "C1_predictions_metadata.zip": "b40be8567c85924c940d9de034fc2aeb21cfd1ae39323dad04819b0ba6c7e7f0"
+  },
+  "existing_zip_bytes_modified": false,
+  "scope": "Original C1 numerical data, features, saved predictions, probabilities and result metadata; third-party rights excluded",
+  "article_reference": "To be completed after acceptance; no assigned DOI asserted"
+}

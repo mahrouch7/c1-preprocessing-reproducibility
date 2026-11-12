@@ -1,0 +1,12 @@
+{
+  "campaign_root": "data/campaign_root",
+  "ml_analysis_root": "data/ml_analysis_root",
+  "resnet_run": "data/resnet_run",
+  "resnet_audit": "data/resnet_audit",
+  "inceptiontime_run": "data/inceptiontime_run",
+  "inceptiontime_audit": "data/inceptiontime_audit",
+  "graphics_deps": "data/graphics_deps",
+  "output_root": "outputs",
+  "comparison_analysis": "",
+  "python_graphics": ""
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "analysis_id": "C1-E43-descriptive-comparison-v1",
+  "metadata_relative": "../../../../../Backup/C1_E32/campaign_v1/metadata.json",
+  "metadata_sha256": "d231f5d52c6ca1f6affb625a035805a85e186e2e8e1bcdd38386e6e50593f5e5",
+  "ml_root_relative": "../../../../../Backup/C1_E32/recovery_numeric_v1/final_analysis",
+  "ml_index_sha256": "4297577e85d1e95f7175a7af21cfcd7b91a29fbb39de6d20205ccbfacafac9ea",
+  "neural": {
+    "InceptionTime": {
+      "experiment_id": "C1-E43",
+      "source_commit": "22f0ccaa0597949a94c347475394abddd3e82967",
+      "parameters": 276012,
+      "run_relative": "../../../../../Backup/C1_InceptionTime_Kaggle/outputs/kaggle_imports/version2/run",
+      "audit_relative": "../../../../../Backup/C1_InceptionTime_Kaggle/outputs/kaggle_imports/version2/retrieval_audit.json",
+      "audit_sha256": "17f400f17208830a76767b76ad87965b5b28d6d07d98596cbbec3448c3901046",
+      "manifest_sha256": "b30a93c9e2b54283b2c2b3fcfd29d9461c738e69cc9094e48c305df59b4708c9",
+      "condition_cache_sha256": {
+        "awgn__20": "68e1c2fc3780e48020291e5697cc8e471826f566cc2c638dc715bf070ee64d45",
+        "clean": "508f53b37a1f73157a62c12814e3c638537a845a736adcd723318df06121bf78",
+        "mixed_gain_additive__10": "265e0ac944ac6ea78af4012cb2c36d481302e6f8f4fe30c72ba0425b7f4936df"
+      }
+    },
+    "ResNet": {
+      "experiment_id": "C1-E33",
+      "source_commit": "ab4bc5fe07e60e54317a192dc1b8cc002c24b20e",
+      "parameters": 279692,
+      "run_relative": "../../../../../Backup/C1_ResNet1D_Kaggle/outputs/kaggle_imports/version3_364185568/run",
+      "audit_relative": "../../../../../Backup/C1_ResNet1D_Kaggle/outputs/kaggle_imports/version3_364185568/retrieval_audit.json",
+      "audit_sha256": "c04bc400f44ecb02a47dd40bef5c195f0636c20ab48fc8af81c358ae0b1e5040",
+      "manifest_sha256": "008b6db7e388a1a9f009ac24f26d5667ab60e1a501821661baf9fb49a5fb7f96",
+      "condition_cache_sha256": {
+        "awgn__20": "68e1c2fc3780e48020291e5697cc8e471826f566cc2c638dc715bf070ee64d45",
+        "clean": "508f53b37a1f73157a62c12814e3c638537a845a736adcd723318df06121bf78",
+        "mixed_gain_additive__10": "265e0ac944ac6ea78af4012cb2c36d481302e6f8f4fe30c72ba0425b7f4936df"
+      }
+    }
+  },
+  "resnet_reference_relative": "../../manuscript/C1P1_OJIES_15pages/data/resnet_seeds_verified.csv",
+  "resnet_reference_sha256": "efbea8ab1541d4d28e7a5969421a12811bc7db5d1ff28bef6b81b84e44da3350",
+  "scientific_versions": {
+    "numpy": "2.3.5",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1"
+  },
+  "python_relative": "../../../../../Backup/C1_ResNet1D/.venv/Scripts/python.exe",
+  "graphics_deps_relative": "../../../../../Backup/C1_FigureTools_20261103/python_deps",
+  "output_root_relative": "../../../../../Backup/C1_InceptionTime_Kaggle/outputs/comparative_analysis_v1",
+  "protected_roots_relative": [
+    "../../../../../Backup/C1_E32/campaign_v1",
+    "../../../../../Backup/C1_E32/recovery_numeric_v1",
+    "../../../../../Backup/C1_InceptionTime_Kaggle/outputs/kaggle_imports/version2",
+    "../../../../../Backup/C1_ResNet1D_Kaggle/outputs/kaggle_imports/version3_364185568"
+  ],
+  "new_training": false,
+  "new_noise_or_simulation": false,
+  "new_hypothesis_tests": false,
+  "plots_require_actual_PDF_QA": true
+}

@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+type: software
+title: "C1 preprocessing and fault-classification reproducibility package"
+message: >-
+  If you use this code, data or figures in research, please cite the associated
+  C1 article. Its final bibliographic reference will be added after acceptance.
+  Until that reference is available, this record identifies the software package;
+  record the version or commit used. Data and figures have a separate CC BY 4.0
+  licence, as described in LICENSING.md.
+authors:
+  - family-names: Kouraichi
+    given-names: Maher
+  - family-names: Mansouri
+    given-names: Majdi
+  - family-names: Sakly
+    given-names: Anis
+license: MIT
+
+# Complete only after article acceptance and verification of the final metadata.
+# The software title above is not a proposed or final article title.
+# Add the real public repository URL and released version when available.
+# Uncomment and complete preferred-citation to make GitHub cite the article:
+# preferred-citation:
+#   type: article
+#   title: "VERIFIED FINAL ARTICLE TITLE"
+#   authors:
+#     - family-names: Kouraichi
+#       given-names: Maher
+#     - family-names: Mansouri
+#       given-names: Majdi
+#     - family-names: Sakly
+#       given-names: Anis
+#   journal: "VERIFIED JOURNAL NAME"
+#   year: VERIFIED_PUBLICATION_YEAR
+#   doi: "VERIFIED ARTICLE DOI, ONLY IF ASSIGNED"
+# Omit fields that do not yet exist rather than publishing placeholder values.

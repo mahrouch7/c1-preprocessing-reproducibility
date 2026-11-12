@@ -1,0 +1,541 @@
+{
+  "artifacts": {
+    "archive": {
+      "bytes": 15462206,
+      "path": "task.zip",
+      "sha256": "1a19daa6a37f9e005ec5c9b05ca5f064bbaabbcbc44d262f7da3896b48f3862a"
+    },
+    "assignment": {
+      "bytes": 860904,
+      "path": "assignment.json",
+      "sha256": "c5ab7307d4b58521c29ed5fea56064102f282ec4fb675cb5add73b20fe15c949"
+    },
+    "awgn__20": {
+      "bytes": 529760,
+      "path": "data/awgn__20.npy",
+      "sha256": "7d5454e399ee0a9a6c3b664948bef424a8236c95e078bd7eff87872ac0d684b4"
+    },
+    "clean": {
+      "bytes": 529760,
+      "path": "data/clean.npy",
+      "sha256": "9d2a959b863e8da8c3e0a2ed58183c7832305746f4603c645540ff9f66c1a2c6"
+    },
+    "configuration": {
+      "bytes": 4233,
+      "path": "execution/task/configuration.json",
+      "sha256": "91cdc32f892120e3d4e1f1211bfa17336d48b788b9ff7b88b2fcc95214ee5973"
+    },
+    "metadata": {
+      "bytes": 1327588,
+      "path": "data/metadata.json",
+      "sha256": "d231f5d52c6ca1f6affb625a035805a85e186e2e8e1bcdd38386e6e50593f5e5"
+    },
+    "mixed_gain_additive__10": {
+      "bytes": 529760,
+      "path": "data/mixed_gain_additive__10.npy",
+      "sha256": "254101a2ba453bb9e6d8f5a5616e6117f9374508b2dd250fc795e44a9970711b"
+    },
+    "retained_model": {
+      "bytes": 3486,
+      "original_model_hash_receipt": "absent: failed unit did not finalize fit_records",
+      "path": "execution\\output\\model_30c30d7cb6ed2f4e63320ec50b0dfc54f725ddb0a7f93db20e2d67495e454aed.pickle.gz",
+      "sha256": "4426a4f192aea45b49bdb63ec4380fc1871808ca371891a3c757c61156258cba"
+    }
+  },
+  "conditions": [
+    {
+      "above_one_values": 0,
+      "bad_row_ids_first_16": [],
+      "condition": "clean",
+      "input": {
+        "dtype": "float64",
+        "maximum_finite": 205864.44099348018,
+        "minimum_finite": -2056.9720455278157,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "joint_log_likelihood": {
+        "dtype": "float64",
+        "maximum_finite": 61.148335567880046,
+        "minimum_finite": -29657857475.821953,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "native_classes": [
+        "ab",
+        "abc",
+        "abcg",
+        "abg",
+        "ac",
+        "acg",
+        "ag",
+        "bc",
+        "bcg",
+        "bg",
+        "cg",
+        "noFault"
+      ],
+      "native_labels": [
+        "ab",
+        "abc",
+        "abcg",
+        "abg",
+        "ac",
+        "acg",
+        "ag",
+        "bc",
+        "bcg",
+        "bg",
+        "cg",
+        "noFault"
+      ],
+      "negative_values": 0,
+      "prediction_shape": [
+        296
+      ],
+      "probabilities": {
+        "dtype": "float64",
+        "maximum_finite": 1.0,
+        "minimum_finite": 0.0,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "raw_probability_shape": [
+        296,
+        12
+      ],
+      "row_sum_absolute_error": {
+        "dtype": "float64",
+        "maximum_finite": 1.7763568394002505e-15,
+        "minimum_finite": 0.0,
+        "nonfinite": 0,
+        "shape": [
+          296
+        ]
+      },
+      "rows_outside_original_tolerance": 0,
+      "transformed_input": {
+        "dtype": "float64",
+        "maximum_finite": 11.502904448506266,
+        "minimum_finite": -5.1838296031361315,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "violations": [],
+      "warnings": [],
+      "worst_rows": [
+        {
+          "nonfinite": 0,
+          "row_id": 1732,
+          "sum": 1.0000000000000018
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1739,
+          "sum": 1.0000000000000018
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1365,
+          "sum": 1.0000000000000018
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1358,
+          "sum": 1.0000000000000018
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1468,
+          "sum": 1.0000000000000018
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1479,
+          "sum": 0.9999999999999982
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1490,
+          "sum": 1.0000000000000018
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1486,
+          "sum": 0.9999999999999982
+        }
+      ]
+    },
+    {
+      "above_one_values": 0,
+      "bad_row_ids_first_16": [
+        1449,
+        1485,
+        1778,
+        1782
+      ],
+      "condition": "awgn__20",
+      "input": {
+        "dtype": "float64",
+        "maximum_finite": 207308.44642339248,
+        "minimum_finite": -1934.3517993297578,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "joint_log_likelihood": {
+        "dtype": "float64",
+        "maximum_finite": -11.54014610747805,
+        "minimum_finite": -5.0277679718518936e+16,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "native_classes": [
+        "ab",
+        "abc",
+        "abcg",
+        "abg",
+        "ac",
+        "acg",
+        "ag",
+        "bc",
+        "bcg",
+        "bg",
+        "cg",
+        "noFault"
+      ],
+      "native_labels": [
+        "abc",
+        "abcg",
+        "abg",
+        "acg",
+        "ag",
+        "bcg",
+        "bg"
+      ],
+      "negative_values": 0,
+      "prediction_shape": [
+        296
+      ],
+      "probabilities": {
+        "dtype": "float64",
+        "maximum_finite": 1.0,
+        "minimum_finite": 0.0,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "raw_probability_shape": [
+        296,
+        12
+      ],
+      "row_sum_absolute_error": {
+        "dtype": "float64",
+        "maximum_finite": 2.2554291767562518e-10,
+        "minimum_finite": 0.0,
+        "nonfinite": 0,
+        "shape": [
+          296
+        ]
+      },
+      "rows_outside_original_tolerance": 4,
+      "transformed_input": {
+        "dtype": "float64",
+        "maximum_finite": 351.42201069465807,
+        "minimum_finite": -10181.196693940827,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "violations": [
+        "row_sum_atol_1e-10"
+      ],
+      "warnings": [],
+      "worst_rows": [
+        {
+          "nonfinite": 0,
+          "row_id": 1778,
+          "sum": 1.000000000225543
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1782,
+          "sum": 1.0000000001316716
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1449,
+          "sum": 1.0000000001164029
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1485,
+          "sum": 1.0000000001130243
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1353,
+          "sum": 0.9999999999325637
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1716,
+          "sum": 0.9999999999412776
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 114,
+          "sum": 0.9999999999527218
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 242,
+          "sum": 1.0000000000193312
+        }
+      ]
+    },
+    {
+      "above_one_values": 0,
+      "bad_row_ids_first_16": [
+        76,
+        96,
+        163,
+        175,
+        185,
+        226,
+        245,
+        1186,
+        1200,
+        1203,
+        1347,
+        1352,
+        1354,
+        1358,
+        1376,
+        1451
+      ],
+      "condition": "mixed_gain_additive__10",
+      "input": {
+        "dtype": "float64",
+        "maximum_finite": 248413.38875343054,
+        "minimum_finite": -34331.06155609322,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "joint_log_likelihood": {
+        "dtype": "float64",
+        "maximum_finite": -42.70443338332963,
+        "minimum_finite": -2.6649683680951922e+23,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "native_classes": [
+        "ab",
+        "abc",
+        "abcg",
+        "abg",
+        "ac",
+        "acg",
+        "ag",
+        "bc",
+        "bcg",
+        "bg",
+        "cg",
+        "noFault"
+      ],
+      "native_labels": [
+        "abc",
+        "abcg",
+        "abg",
+        "ac",
+        "acg",
+        "ag",
+        "bc",
+        "bcg",
+        "bg"
+      ],
+      "negative_values": 0,
+      "prediction_shape": [
+        296
+      ],
+      "probabilities": {
+        "dtype": "float64",
+        "maximum_finite": 1.0,
+        "minimum_finite": 0.0,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "raw_probability_shape": [
+        296,
+        12
+      ],
+      "row_sum_absolute_error": {
+        "dtype": "float64",
+        "maximum_finite": 2.766262427589261e-05,
+        "minimum_finite": 0.0,
+        "nonfinite": 0,
+        "shape": [
+          296
+        ]
+      },
+      "rows_outside_original_tolerance": 34,
+      "transformed_input": {
+        "dtype": "float64",
+        "maximum_finite": 107398.45314876118,
+        "minimum_finite": -23436727.267136905,
+        "nonfinite": 0,
+        "shape": [
+          296,
+          12
+        ]
+      },
+      "violations": [
+        "row_sum_atol_1e-10"
+      ],
+      "warnings": [],
+      "worst_rows": [
+        {
+          "nonfinite": 0,
+          "row_id": 1732,
+          "sum": 0.9999723373757241
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 96,
+          "sum": 0.9999966627849304
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1469,
+          "sum": 0.9999970374534799
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1780,
+          "sum": 1.0000012447726974
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1352,
+          "sum": 0.9999997572882107
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1737,
+          "sum": 0.999999973639364
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1494,
+          "sum": 1.0000000124079034
+        },
+        {
+          "nonfinite": 0,
+          "row_id": 1347,
+          "sum": 0.9999999927880987
+        }
+      ]
+    }
+  ],
+  "diagnostic_only": true,
+  "experiment_id": "C1-E32",
+  "feature_columns": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "first_rejected_condition_in_original_order": "awgn__20",
+  "fits": 0,
+  "host": "DESKTOP-URB44PU",
+  "interpretation_limit": "A diagnostic reproduction is not an approved fix or a completed scientific unit.",
+  "job_id": "30c30d7cb6ed2f4e63320ec50b0dfc54f725ddb0a7f93db20e2d67495e454aed",
+  "matched_clean": "same saved model and rows as deployment/clean; not recomputed",
+  "model_details": {
+    "gaussian_epsilon": 1.0000000000000003e-09,
+    "gaussian_means": {
+      "dtype": "float64",
+      "maximum_finite": 1.4080808992354872,
+      "minimum_finite": -1.4136712576423593,
+      "nonfinite": 0,
+      "shape": [
+        12,
+        12
+      ]
+    },
+    "gaussian_variances": {
+      "dtype": "float64",
+      "maximum_finite": 4.462005734541998,
+      "minimum_finite": 1.0085860372788126e-09,
+      "nonfinite": 0,
+      "shape": [
+        12,
+        12
+      ]
+    },
+    "var_smoothing": 1e-09,
+    "yeo_johnson_lambdas": {
+      "dtype": "float64",
+      "maximum_finite": 3.0980514827317758,
+      "minimum_finite": -1.1881699193344435,
+      "nonfinite": 0,
+      "shape": [
+        12
+      ]
+    }
+  },
+  "ordinal": 97,
+  "python": "3.12.3",
+  "recorded_utc": "2026-10-26T16:08:22.900858+00:00",
+  "scientific_artifact_writes": 0,
+  "script_sha256": "007c5ac9a32d8c62ee0e27b76ea13ef0940ec63f35549071047ed283aba7e7ab",
+  "simulations": 0,
+  "status": "ORIGINAL_CONTRACT_REJECTION_REPRODUCED",
+  "submissions": 0,
+  "test_windows": 296,
+  "unit_id": "a709bff00cb7e27c14e41815072dfc4d5be09092e629a62c278f4737fe43621e",
+  "versions": {
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1"
+  }
+}

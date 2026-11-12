@@ -1,0 +1,56 @@
+"""Render frozen E42 medians at legible OJIES figure font sizes; no new metrics."""
+from pathlib import Path
+import argparse,csv,sys,json,hashlib
+parser=argparse.ArgumentParser();parser.add_argument('--graphics-deps',type=Path,required=True)
+args=parser.parse_args();sys.path.insert(0,str(args.graphics_deps))
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.colors import Normalize
+import numpy as np
+P=Path(__file__).resolve().parents[1]
+source=P/'data/e42_figure_data.csv'
+with source.open(encoding='utf-8-sig') as f:data=list(csv.DictReader(f))
+noises=[('awgn','AWGN'),('lowfreq','Low-frequency'),('impulsive','Impulsive'),('gain_plus_awgn','Gain + AWGN'),('mixed_gain_additive','Mixed')]
+preps=['savgol','median','wavelet_soft','wavelet_hard']
+metrics=[('tpi_filter_median','Transient energy ratio (TPI)'),('fidelity_filter_median','Transient fidelity error'),('additive_response_ratio_median','Additive-noise response ratio')]
+plt.rcParams.update({'font.family':'DejaVu Sans','font.size':8,'axes.titlesize':8.5,'pdf.fonttype':42,'svg.fonttype':'none'})
+fig,axes=plt.subplots(3,2,figsize=(7.0,6.1))
+fig.subplots_adjust(left=.155,right=.94,bottom=.075,top=.86,wspace=.53,hspace=.77)
+fig.suptitle('Transient Preservation, Fidelity and Noise Response at 10 dB',fontsize=10.5,fontweight='bold',y=.985)
+fig.text(.5,.943,'Family/class-weighted medians; currents and voltages kept separate',ha='center',fontsize=8)
+for ri,(metric,title) in enumerate(metrics):
+    matrices=[]
+    for unit in ['I','V']:
+        v=np.array([[float(next(r['median'] for r in data if r['metric']==metric and r['unit']==unit and r['condition']==noise+'__10' and r['preprocessor']==prep)) for prep in preps] for noise,_ in noises])
+        matrices.append(v)
+    vmax=max(1.,max(v.max() for v in matrices)) if ri!=1 else max(v.max() for v in matrices)
+    norm=Normalize(0,vmax)
+    fig.text(.155,axes[ri,0].get_position().y1+.053,title,fontsize=9,fontweight='bold')
+    for ci,(unit,v) in enumerate(zip(['I','V'],matrices)):
+        ax=axes[ri,ci];im=ax.imshow(v,cmap='Blues',norm=norm,aspect='auto')
+        ax.set_title('('+chr(97+ri*2+ci)+') '+('Currents' if unit=='I' else 'Voltages'),loc='left',pad=7)
+        for yy in range(5):
+            for xx in range(4):
+                val=v[yy,xx]
+                if 0<val<1e-10:
+                    label=r'$<10^{-10}$'
+                elif 0<val<.01:
+                    label=f'{val:.2e}'.replace('e-0','e-')
+                else:
+                    label=f'{val:.3g}'
+                ax.text(xx,yy,label,ha='center',va='center',fontsize=8,color='white' if norm(val)>.55 else '#17304A')
+        ax.set_xticks(range(4),['SG','Median','Soft','Hard'],fontsize=8)
+        ax.set_yticks(range(5),[name for _,name in noises],fontsize=8)
+        cb=fig.colorbar(im,ax=ax,fraction=.036,pad=.03)
+        cb.set_ticks([0,vmax/2,vmax]);cb.set_ticklabels([f'{x:.2g}' for x in [0,vmax/2,vmax]])
+        cb.ax.tick_params(labelsize=7.5)
+        for sp in ax.spines.values():sp.set_visible(False)
+fig.text(.155,.024,'Each row group uses its own colour scale; small positive errors are bounded as labelled.',fontsize=8)
+outputs={}
+for ext in ['pdf','svg','png']:
+    f=P/'latex/figures'/('o15_fig07_transient_preservation_noise_v2.'+ext)
+    fig.savefig(f,dpi=200,facecolor='white');outputs[f.name]=hashlib.sha256(f.read_bytes()).hexdigest()
+plt.close(fig)
+(P/'verification/tpi_figure_provenance.json').write_text(json.dumps({'source':'data/e42_figure_data.csv','source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'data_rows':len(data),'new_metrics_or_tests':False,'body_cell_font_pt':8,'outputs':outputs},indent=2)+'\n',encoding='utf-8')
+print('E42 figure redrawn from all 120 frozen medians; no metric recomputation.')

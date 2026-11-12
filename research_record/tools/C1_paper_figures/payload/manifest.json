@@ -1,0 +1,482 @@
+{
+  "schema": 1,
+  "scope": "Seven scientific figures of the local integrated OJIES fifteen-page manuscript; no logos/biographies.",
+  "manuscript_relative": "manuscript/C1P1_OJIES_15pages/revision_20261110_InceptionTime/latex/C1P1_OJIES_InceptionTime_20261110_Integrated.tex",
+  "manuscript_sha256": "e64261770317651241166cb3d7dec8c77813f4277c2876f0396328f141c64073",
+  "files": [
+    {
+      "path": "drivers/network.py",
+      "sha256": "e449d3160a0dc38c7b0cc68dbf9e29355ee1befd3435f6a09324e7a177b14769",
+      "bytes": 8234,
+      "kind": "adapted_generator",
+      "origin_relative": "research_record/review/C1_AUD16_layout_20261106/applied/render_network_column.py"
+    },
+    {
+      "path": "provenance/network.py.original.txt",
+      "sha256": "681b6f995bc5f22c0a818dd141729758b22b9fd4c83d871fc16d8832cc3aa51c",
+      "bytes": 8078,
+      "kind": "historical_source_not_executed",
+      "origin_relative": "research_record/review/C1_AUD16_layout_20261106/applied/render_network_column.py"
+    },
+    {
+      "path": "drivers/protocol.py",
+      "sha256": "1b3cd31ec4918068852fe0096d1884aba2b52a5276ee8557b241d758cd1ec33f",
+      "bytes": 2326,
+      "kind": "adapted_generator",
+      "origin_relative": "manuscript/C1P1_courte_10pages/tools/compose_protocol.py"
+    },
+    {
+      "path": "provenance/protocol.py.original.txt",
+      "sha256": "72f492ae2676d0e31ec62e874ef1dc216b15b9df9c59c4f5ef8daed947374f8a",
+      "bytes": 2383,
+      "kind": "historical_source_not_executed",
+      "origin_relative": "manuscript/C1P1_courte_10pages/tools/compose_protocol.py"
+    },
+    {
+      "path": "drivers/acquisition.py",
+      "sha256": "97ef99503acdb2bddf34430f0ae57eeb319f984fe60c4d11d1c6385817dcdc7b",
+      "bytes": 8386,
+      "kind": "adapted_generator",
+      "origin_relative": "research_record/review/C1_acquisition_3d_20261103/source/build_3d.py"
+    },
+    {
+      "path": "provenance/acquisition.py.original.txt",
+      "sha256": "0d4b8a2ade9bdd988045ab497e7ded8b5fe831515a809bf0b6bacc95cde8437d",
+      "bytes": 8259,
+      "kind": "historical_source_not_executed",
+      "origin_relative": "research_record/review/C1_acquisition_3d_20261103/source/build_3d.py"
+    },
+    {
+      "path": "drivers/waveforms.py",
+      "sha256": "c4bdf77147b2c60e52960963c8f14c94e3e89b7c54978fd30a031c1a66ccdde9",
+      "bytes": 7383,
+      "kind": "adapted_generator",
+      "origin_relative": "research_record/review/C1_AUD08_waveform_examples_20261105/revision_v3/plot_compact.py"
+    },
+    {
+      "path": "provenance/waveforms.py.original.txt",
+      "sha256": "9e10da3f1998cec71941e66ec883c00ba9918b579959722f4b600d110919149b",
+      "bytes": 7778,
+      "kind": "historical_source_not_executed",
+      "origin_relative": "research_record/review/C1_AUD08_waveform_examples_20261105/revision_v3/plot_compact.py"
+    },
+    {
+      "path": "drivers/snr.py",
+      "sha256": "1709911c7ce4b622b76b3a4590d7295940dc2de36a66dc7fd6226765c138fe61",
+      "bytes": 4306,
+      "kind": "adapted_generator",
+      "origin_relative": "manuscript/C1P1_courte_10pages/tools/plot_short_results.py"
+    },
+    {
+      "path": "provenance/snr.py.original.txt",
+      "sha256": "fd729a167bc56772e7d419e7ba7582cc941b6cbb19371ccdf314feccd1254711",
+      "bytes": 10292,
+      "kind": "historical_source_not_executed",
+      "origin_relative": "manuscript/C1P1_courte_10pages/tools/plot_short_results.py"
+    },
+    {
+      "path": "drivers/audit_panel.py",
+      "sha256": "5c252fac0acc526e8f5f6085b75f84d123f1029654e9094ecc03b2d97da84c93",
+      "bytes": 2081,
+      "kind": "adapted_generator",
+      "origin_relative": "manuscript/C1P1_courte_10pages/tools/plot_short_results.py"
+    },
+    {
+      "path": "provenance/audit_panel.py.original.txt",
+      "sha256": "fd729a167bc56772e7d419e7ba7582cc941b6cbb19371ccdf314feccd1254711",
+      "bytes": 10292,
+      "kind": "historical_source_not_executed",
+      "origin_relative": "manuscript/C1P1_courte_10pages/tools/plot_short_results.py"
+    },
+    {
+      "path": "drivers/fusion.py",
+      "sha256": "15898d256449ddd215d0cea7dad36dc9f4f26ed641dbecd1e750c05566d84569",
+      "bytes": 5505,
+      "kind": "adapted_generator",
+      "origin_relative": "research_record/review/C1_sectionIV_20261103/source/build_figures.py"
+    },
+    {
+      "path": "provenance/fusion.py.original.txt",
+      "sha256": "7debae12408a68f2b1df3b21cdaa0c716af7213ca9d2b2db6a3cc721e9c63337",
+      "bytes": 19894,
+      "kind": "historical_source_not_executed",
+      "origin_relative": "research_record/review/C1_sectionIV_20261103/source/build_figures.py"
+    },
+    {
+      "path": "drivers/fusion_crop.py",
+      "sha256": "3ccac398bebad58c02835a4ec916ea7cc9d03d57c2ebae086f69c017d51ac40c",
+      "bytes": 1090,
+      "kind": "adapted_generator",
+      "origin_relative": "manuscript/C1P1_courte_10pages/tools/compose_fusion.py"
+    },
+    {
+      "path": "provenance/fusion_crop.py.original.txt",
+      "sha256": "f644de2468e41ac1ef9486b606563999cc0d9e7f38708973b01f0f1d25c5ad6a",
+      "bytes": 1187,
+      "kind": "historical_source_not_executed",
+      "origin_relative": "manuscript/C1P1_courte_10pages/tools/compose_fusion.py"
+    },
+    {
+      "path": "drivers/temporal_top.py",
+      "sha256": "a95dd7cf0380826774320975b9466bcad4df4df1dadb78182de6132f82b305fe",
+      "bytes": 2976,
+      "kind": "adapted_generator",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/suivi/C1_E43_integration_20261109/build_compact_figure.py"
+    },
+    {
+      "path": "provenance/temporal_top.py.original.txt",
+      "sha256": "02630aea722bbe17c3f96eefaead306f9beecf5c70b4241eff4726439e50b51f",
+      "bytes": 2994,
+      "kind": "historical_source_not_executed",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/suivi/C1_E43_integration_20261109/build_compact_figure.py"
+    },
+    {
+      "path": "drivers/temporal_merge.py",
+      "sha256": "0e391243ce43ea065ae8b6ab37782972cab382185ce874e9b845b47803266b3b",
+      "bytes": 2536,
+      "kind": "adapted_generator",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/suivi/C1_E43_integration_20261109/merge_compact_figure.py"
+    },
+    {
+      "path": "provenance/temporal_merge.py.original.txt",
+      "sha256": "5c1daebb86a45eb9c2b97435bb6e996a5c2c5d97b26f1cb4391789b829d06f85",
+      "bytes": 2603,
+      "kind": "historical_source_not_executed",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/suivi/C1_E43_integration_20261109/merge_compact_figure.py"
+    },
+    {
+      "path": "drivers/transients.py",
+      "sha256": "414876a7db92cbbf60d1bda8105f021366e08750e284550a7238322c092dd912",
+      "bytes": 3783,
+      "kind": "adapted_generator",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/tools/plot_o15_tpi.py"
+    },
+    {
+      "path": "provenance/transients.py.original.txt",
+      "sha256": "31a91e0749e293bd556ee4be7c0ad0413ee8df23d519a71bfbc634bbd293eef9",
+      "bytes": 3785,
+      "kind": "historical_source_not_executed",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/tools/plot_o15_tpi.py"
+    },
+    {
+      "path": "data/network_config.json",
+      "sha256": "1fd9354806b5cc7bf6aca48b33516cf2b701467de6c9986dab6a2deccf2256a1",
+      "bytes": 8019,
+      "kind": "frozen_figure_input",
+      "origin_relative": "manuscript/revision_complete_20261028/evidence/parent_static_model_config.json"
+    },
+    {
+      "path": "data/load_settings.csv",
+      "sha256": "313aa9e94136fa343e775641d4671afacff1a1b93748aaf4191f2f28c4145ebf",
+      "bytes": 9854,
+      "kind": "frozen_figure_input",
+      "origin_relative": "research_record/review/C1_acquisition_3d_20261103/load_settings.csv"
+    },
+    {
+      "path": "data/waveforms/waveforms.npz",
+      "sha256": "13449ff67c61793b55062d23a91ee7ee21f1fceecad5c8868972f2f9d6c7d31f",
+      "bytes": 4637036,
+      "kind": "frozen_figure_input",
+      "origin_relative": "../../../Backup/C1_Waveform_examples/run_20261105_152923_c6213a7a/numeric/waveforms.npz"
+    },
+    {
+      "path": "data/waveforms/summary.json",
+      "sha256": "85c1e9472ff596fc01ba1540e7ed37d919d6f96db7e92f2e01ab1294ad7ae781",
+      "bytes": 6397,
+      "kind": "frozen_figure_input",
+      "origin_relative": "../../../Backup/C1_Waveform_examples/run_20261105_152923_c6213a7a/numeric/summary.json"
+    },
+    {
+      "path": "data/robustness_curves_verified.csv",
+      "sha256": "fa52a7dca140d70d240636340c1d3a4cfa27a50b662037345893d64cfe3d6898",
+      "bytes": 13062,
+      "kind": "frozen_figure_input",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/data/robustness_curves_verified.csv"
+    },
+    {
+      "path": "data/denoising_effects_verified.csv",
+      "sha256": "a7bc4055ba8fa4789ef768f9b69b587bba2653ccf77b1c2997a1a77f84dc6e80",
+      "bytes": 8151,
+      "kind": "frozen_figure_input",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/data/denoising_effects_verified.csv"
+    },
+    {
+      "path": "data/fusion_effects_verified.csv",
+      "sha256": "021a78c650e63745b2ee2646d0774dffd6670af750efeb8c670d0c2427ce2007",
+      "bytes": 7116,
+      "kind": "frozen_figure_input",
+      "origin_relative": "research_record/review/C1_sectionIV_20261103/fusion_effects_verified.csv"
+    },
+    {
+      "path": "data/paired_contrasts_verified.csv",
+      "sha256": "6d56d731648793d1647b31c09aa26dc8abb1fe0def057a33f29e649dfdd0717f",
+      "bytes": 383847,
+      "kind": "frozen_figure_input",
+      "origin_relative": "research_record/review/C1_sectionIV_20261103/paired_contrasts_verified.csv"
+    },
+    {
+      "path": "data/abc_abcg_audit_summary.json",
+      "sha256": "10a29e314cc20488ad003fad34a4d9fab09da32a75e5cecc18902b4c374bdb09",
+      "bytes": 2993,
+      "kind": "frozen_figure_input",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/data/abc_abcg_audit_summary.json"
+    },
+    {
+      "path": "data/e42_figure_data.csv",
+      "sha256": "dbac72710ffe2b3a37f8ba7bf082a3ac8491331737e19f32780fcc90910f3d9d",
+      "bytes": 11630,
+      "kind": "frozen_figure_input",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/data/e42_figure_data.csv"
+    },
+    {
+      "path": "reference/figure1.pdf",
+      "sha256": "059578f6c7dea3f640f72c29d4b2d573b95886663c46c356a659fd0bd937696a",
+      "bytes": 83088,
+      "kind": "approved_reference_for_QA_only",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/revision_20261110_InceptionTime/latex/Contrib1_P1_Preprocessing_paper/Figs_OJIES/o15_fig01_protocol_v1.pdf"
+    },
+    {
+      "path": "reference/figure2.pdf",
+      "sha256": "cc598edce82a7def1fd1a8684af26e7be8132bf44786a82f5a1ff4c81a61846f",
+      "bytes": 52780,
+      "kind": "approved_reference_for_QA_only",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/revision_20261110_InceptionTime/latex/Contrib1_P1_Preprocessing_paper/Figs_OJIES/o15_fig02_acquisition_window_v1.pdf"
+    },
+    {
+      "path": "reference/figure3.pdf",
+      "sha256": "7dd21058226ce17bbbe980c0f0a7659dfa1d7c154b833f5aef2c7511cd6459ff",
+      "bytes": 109293,
+      "kind": "approved_reference_for_QA_only",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/revision_20261110_InceptionTime/latex/Contrib1_P1_Preprocessing_paper/Figs_OJIES/o15_fig03_waveform_examples_v1.pdf"
+    },
+    {
+      "path": "reference/figure4.pdf",
+      "sha256": "741f6359ac75a264fb2b5011f459f7dd5ad0ffd439c6d5e17add6fd968802aee",
+      "bytes": 49862,
+      "kind": "approved_reference_for_QA_only",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/revision_20261110_InceptionTime/latex/Contrib1_P1_Preprocessing_paper/Figs_OJIES/o15_fig04_snr_exposure_filtering_v1.pdf"
+    },
+    {
+      "path": "reference/figure5.pdf",
+      "sha256": "a69be5d8a401c6d90a48a9b9b8cbdfa762889a71567328c86dc7123c9d361967",
+      "bytes": 87929,
+      "kind": "approved_reference_for_QA_only",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/revision_20261110_InceptionTime/latex/Contrib1_P1_Preprocessing_paper/Figs_OJIES/o15_fig05_fusion_constituents_v1.pdf"
+    },
+    {
+      "path": "reference/figure6.pdf",
+      "sha256": "95aae64685030fce61619d75fefc8579aa0aefce01148d688017cd9346d416e4",
+      "bytes": 318012,
+      "kind": "approved_reference_for_QA_only",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/revision_20261110_InceptionTime/latex/Contrib1_P1_Preprocessing_paper/Figs_OJIES/o15_fig06_temporal_comparison_e43_v1.pdf"
+    },
+    {
+      "path": "reference/figure7.pdf",
+      "sha256": "4f761ae495062a60358f8f984cd8035fdc6869552420b8e33c9543f13a1f0d45",
+      "bytes": 48382,
+      "kind": "approved_reference_for_QA_only",
+      "origin_relative": "manuscript/C1P1_OJIES_15pages/revision_20261110_InceptionTime/latex/Contrib1_P1_Preprocessing_paper/Figs_OJIES/o15_fig07_transient_preservation_noise_v2.pdf"
+    }
+  ],
+  "adaptations": [
+    {
+      "driver": "network.py",
+      "original_sha256": "681b6f995bc5f22c0a818dd141729758b22b9fd4c83d871fc16d8832cc3aa51c",
+      "adaptation": "Unchanged drawing code; explicit bundled model config and system Arial font paths supplied at runtime. Fonts are not redistributed."
+    },
+    {
+      "driver": "protocol.py",
+      "original_sha256": "72f492ae2676d0e31ec62e874ef1dc216b15b9df9c59c4f5ef8daed947374f8a",
+      "adaptation": "Paths only; compose with the newly drawn network, not a copied reference figure."
+    },
+    {
+      "driver": "acquisition.py",
+      "original_sha256": "0d4b8a2ade9bdd988045ab497e7ded8b5fe831515a809bf0b6bacc95cde8437d",
+      "adaptation": "Unchanged plotting code; bundled pinned load-settings CSV supplied with --layout composite. Outputs confined to a new workspace."
+    },
+    {
+      "driver": "waveforms.py",
+      "original_sha256": "9e10da3f1998cec71941e66ec883c00ba9918b579959722f4b600d110919149b",
+      "adaptation": "Remove project-internal gate reads and external Poppler invocation; all waveform identity checks, selection/zoom rules and plotting commands retained. PDF rendering centralized."
+    },
+    {
+      "driver": "snr.py",
+      "original_sha256": "fd729a167bc56772e7d419e7ba7582cc941b6cbb19371ccdf314feccd1254711",
+      "adaptation": "Retain only the original SNR/filtering figure block. No numerical plotting command changed; remove injection of an external graphics directory."
+    },
+    {
+      "driver": "audit_panel.py",
+      "original_sha256": "fd729a167bc56772e7d419e7ba7582cc941b6cbb19371ccdf314feccd1254711",
+      "adaptation": "Retain identical GridSpec/canvas and original ABC/ABCG panel only; omit unused historical top score panels. Rebuild the physical panel from the frozen 153-pair audit summary."
+    },
+    {
+      "driver": "fusion.py",
+      "original_sha256": "7debae12408a68f2b1df3b21cdaa0c716af7213ca9d2b2db6a3cc721e9c63337",
+      "adaptation": "Retain original fusion/rows/save functions and constants only; unused historical diagnostics and absolute external paths omitted. Draw complete original atlas before its approved crop."
+    },
+    {
+      "driver": "fusion_crop.py",
+      "original_sha256": "f644de2468e41ac1ef9486b606563999cc0d9e7f38708973b01f0f1d25c5ad6a",
+      "adaptation": "Paths only; approved crop applied to freshly redrawn and titled fusion atlas."
+    },
+    {
+      "driver": "temporal_top.py",
+      "original_sha256": "02630aea722bbe17c3f96eefaead306f9beecf5c70b4241eff4726439e50b51f",
+      "adaptation": "Paths only and no external dependency injection; the top score panels read the newly reproduced metrics CSVs."
+    },
+    {
+      "driver": "temporal_merge.py",
+      "original_sha256": "5c1daebb86a45eb9c2b97435bb6e996a5c2c5d97b26f1cb4391789b829d06f85",
+      "adaptation": "Paths only; original 34-percent vector-panel crop and composition geometry retained. Physical panel is regenerated from its summary, not copied from a reference PDF."
+    },
+    {
+      "driver": "transients.py",
+      "original_sha256": "31a91e0749e293bd556ee4be7c0ad0413ee8df23d519a71bfbc634bbd293eef9",
+      "adaptation": "Paths only and no external graphics injection. Original 120-median, six-panel drawing retained; no transient metrics recomputed."
+    }
+  ],
+  "dynamic_comparison_tables_sha256": {
+    "metrics_per_run.csv": "808d40cea42f332e3b6b2fe5c86122add83c0244ad00af9632b7f310366d6584",
+    "metrics_summary.csv": "a8b4dd8bca8524999d536c29df6c47cf98e81930dcd9bace41dd18fc3ea329b5"
+  },
+  "figures": [
+    {
+      "number": 1,
+      "topic": "Network and evaluation protocol",
+      "paper_filename": "o15_fig01_protocol_v1.pdf",
+      "expected_page_pt": [
+        522,
+        258
+      ],
+      "drivers": [
+        "drivers/network.py",
+        "drivers/protocol.py"
+      ],
+      "frozen_inputs": [
+        "data/network_config.json"
+      ],
+      "recomputed_comparison_inputs": []
+    },
+    {
+      "number": 2,
+      "topic": "Acquisition coverage and retained window",
+      "paper_filename": "o15_fig02_acquisition_window_v1.pdf",
+      "expected_page_pt": [
+        259.2,
+        362.4
+      ],
+      "drivers": [
+        "drivers/acquisition.py"
+      ],
+      "frozen_inputs": [
+        "data/load_settings.csv"
+      ],
+      "recomputed_comparison_inputs": []
+    },
+    {
+      "number": 3,
+      "topic": "Zoomed waveform filtering examples",
+      "paper_filename": "o15_fig03_waveform_examples_v1.pdf",
+      "expected_page_pt": [
+        514.8,
+        316.8
+      ],
+      "drivers": [
+        "drivers/waveforms.py"
+      ],
+      "frozen_inputs": [
+        "data/waveforms/waveforms.npz",
+        "data/waveforms/summary.json"
+      ],
+      "recomputed_comparison_inputs": []
+    },
+    {
+      "number": 4,
+      "topic": "Performance against SNR and filtering effects",
+      "paper_filename": "o15_fig04_snr_exposure_filtering_v1.pdf",
+      "expected_page_pt": [
+        522,
+        248.4
+      ],
+      "drivers": [
+        "drivers/snr.py"
+      ],
+      "frozen_inputs": [
+        "data/robustness_curves_verified.csv",
+        "data/denoising_effects_verified.csv"
+      ],
+      "recomputed_comparison_inputs": []
+    },
+    {
+      "number": 5,
+      "topic": "Fusion against both constituents",
+      "paper_filename": "o15_fig05_fusion_constituents_v1.pdf",
+      "expected_page_pt": [
+        522,
+        190
+      ],
+      "drivers": [
+        "drivers/fusion.py",
+        "drivers/fusion_crop.py"
+      ],
+      "frozen_inputs": [
+        "data/fusion_effects_verified.csv",
+        "data/paired_contrasts_verified.csv"
+      ],
+      "recomputed_comparison_inputs": []
+    },
+    {
+      "number": 6,
+      "topic": "ML/ResNet/InceptionTime comparison plus ABC/ABCG audit",
+      "paper_filename": "o15_fig06_temporal_comparison_e43_v1.pdf",
+      "expected_page_pt": [
+        522,
+        277.704
+      ],
+      "drivers": [
+        "drivers/audit_panel.py",
+        "drivers/temporal_top.py",
+        "drivers/temporal_merge.py"
+      ],
+      "frozen_inputs": [
+        "data/abc_abcg_audit_summary.json"
+      ],
+      "recomputed_comparison_inputs": [
+        "metrics_per_run.csv",
+        "metrics_summary.csv"
+      ]
+    },
+    {
+      "number": 7,
+      "topic": "Transient preservation, fidelity and noise response",
+      "paper_filename": "o15_fig07_transient_preservation_noise_v2.pdf",
+      "expected_page_pt": [
+        504,
+        439.2
+      ],
+      "drivers": [
+        "drivers/transients.py"
+      ],
+      "frozen_inputs": [
+        "data/e42_figure_data.csv"
+      ],
+      "recomputed_comparison_inputs": []
+    }
+  ],
+  "reference_policy": "Reference PDFs are for post-render comparison only; drivers may not read them. All seven PDFs must be regenerated.",
+  "active_generation": {
+    "paper_numbers": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "excluded_paper_numbers": [
+      1,
+      2
+    ],
+    "author_directive": "Processing/result charts only; no acquisition or network/protocol figure.",
+    "old_sources_policy": "Historical files retained; excluded generators are not invoked."
+  }
+}

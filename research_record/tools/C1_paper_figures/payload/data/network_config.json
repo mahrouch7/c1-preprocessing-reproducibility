@@ -1,0 +1,346 @@
+{
+  "experiment_id": "C1-E19",
+  "decision_id": "C1-D41",
+  "schema_version": 3,
+  "maximum_simulations": 1,
+  "production_authorized": false,
+  "required_release": "2024b",
+  "reference": "MATPOWER case9 branches/main loads plus the historical auxiliary 50 MW pure-R load; ratings matched, NOT electrical equivalence",
+  "reference_url": "https://raw.githubusercontent.com/MATPOWER/matpower/master/data/case9.m",
+  "model_scope": "Independent balanced-source EMT variant: ideal voltage equivalents, benchmark coupling reactances, constant-Z loads; no synchronous-machine/AVR/governor dynamics",
+  "base_mva": 100,
+  "base_voltage_ll_v": 345000,
+  "frequency_hz": 60,
+  "generators_bus_p_mw_v_pu": [
+    [
+      1,
+      0,
+      1.04
+    ],
+    [
+      2,
+      163,
+      1.025
+    ],
+    [
+      3,
+      85,
+      1.025
+    ]
+  ],
+  "bus_load_bus_p_mw_q_mvar": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      2,
+      0,
+      0
+    ],
+    [
+      3,
+      0,
+      0
+    ],
+    [
+      4,
+      0,
+      0
+    ],
+    [
+      5,
+      90,
+      30
+    ],
+    [
+      6,
+      0,
+      0
+    ],
+    [
+      7,
+      100,
+      35
+    ],
+    [
+      8,
+      0,
+      0
+    ],
+    [
+      9,
+      125,
+      50
+    ]
+  ],
+  "historical_to_candidate_bus": [
+    1,
+    2,
+    3,
+    4,
+    9,
+    5,
+    8,
+    7,
+    6
+  ],
+  "auxiliary_load": {
+    "historical_bus": 6,
+    "candidate_bus": 5,
+    "p_mw": 50,
+    "q_mvar": 0,
+    "model": "pure_R",
+    "original_nominal_voltage_ll_v": 230000,
+    "nominal_voltage_policy": "candidate_base_voltage_no_operating_point_retuning",
+    "measurement_role": "auxiliary_diagnostic",
+    "include_in_classifier_inputs": false
+  },
+  "recording_policy": {
+    "selected_groups": [
+      "Ifrom_A",
+      "Ito_A",
+      "Vfault_V",
+      "Ifault_A",
+      "IleftMid_A",
+      "IrightMid_A",
+      "FaultCommand"
+    ],
+    "bus_groups": [
+      "VB1_V",
+      "VB2_V",
+      "VB3_V",
+      "VB4_V",
+      "VB5_V",
+      "VB6_V",
+      "VB7_V",
+      "VB8_V",
+      "VB9_V"
+    ],
+    "auxiliary_groups": [
+      "AuxLoad_V",
+      "AuxLoad_I"
+    ],
+    "auxiliary_in_classifier_inputs": false
+  },
+  "branches_from_to_r_x_b_pu": [
+    [
+      1,
+      4,
+      0,
+      0.0576,
+      0
+    ],
+    [
+      4,
+      5,
+      0.017,
+      0.092,
+      0.158
+    ],
+    [
+      5,
+      6,
+      0.039,
+      0.17,
+      0.358
+    ],
+    [
+      3,
+      6,
+      0,
+      0.0586,
+      0
+    ],
+    [
+      6,
+      7,
+      0.0119,
+      0.1008,
+      0.209
+    ],
+    [
+      7,
+      8,
+      0.0085,
+      0.072,
+      0.149
+    ],
+    [
+      8,
+      2,
+      0,
+      0.0625,
+      0
+    ],
+    [
+      8,
+      9,
+      0.032,
+      0.161,
+      0.306
+    ],
+    [
+      9,
+      4,
+      0.01,
+      0.085,
+      0.176
+    ]
+  ],
+  "line_representation": "One lumped pi per unsplit branch; selected branch split into two proportional pi sections. Length parameter=1 km is electrical normalization, NOT a claimed physical line length.",
+  "zero_sequence_assumption": "R0=R1, L0=L1, C0=C1: uncoupled-phase pilot assumption, not supplied by case9 and not qualified for LG/LLG or realistic unbalanced clearing",
+  "fault": {
+    "branch_from": 7,
+    "branch_to": 8,
+    "electrical_fraction_from": 0.8,
+    "type": "ll_ab",
+    "phase_breaker_resistance_ohm": 0.002,
+    "ground_resistance_ohm": 0.001,
+    "start_s": 0.2,
+    "command_clear_s": 0.4,
+    "snubber_resistance_ohm": 1000000,
+    "snubber_capacitance_f": "inf",
+    "snubber_policy": "R2024b default resistive snubbers across phase contacts; finite off-state leakage is modeled, not deleted from raw signals",
+    "clearing_semantics": "SPS breaker current-zero extinction may follow command; command is not an independently observed switch-state label"
+  },
+  "solver": {
+    "simulation_step_s": 1.25e-06,
+    "output_period_s": 2.5e-05,
+    "powergui_method": "Backward Euler",
+    "stop_s": 0.45,
+    "simulation_timeout_s": 600,
+    "initial_electrical_states": "steady"
+  },
+  "checks": {
+    "clock_tolerance_s": 1e-11,
+    "phasor_magnitude_relative_limit": 0.02,
+    "phasor_angle_degrees_limit": 1,
+    "kcl_relative_limit": 1e-08,
+    "fault_active_rms_minimum_a": 1,
+    "late_off_snubber_residual_limit_a": 0.01,
+    "auxiliary_ohm_relative_limit": 1e-08,
+    "auxiliary_prefault_power_relative_limit": 0.02,
+    "thresholds_are_pilot_hypotheses": true
+  },
+  "limits": [
+    "Crossline diagnostic, not dataset generation or adoption.",
+    "Historical public labels; internal matrix order retained and explicitly mapped.",
+    "Only the selected pi line is split: moving the fault also moves that lumped-pi segmentation.",
+    "Unqualified zero sequence and ideal-source/constant-Z assumptions remain.",
+    "No independent breaker-state telemetry; preserve all raw startup/event samples."
+  ],
+  "electrical_calibration": {
+    "voltage_magnitude_pu": [
+      1.04,
+      1.025,
+      1.025,
+      1.0238689653917836,
+      1.002901647812259,
+      1.030224932580014,
+      1.0144398355843873,
+      1.025042822147417,
+      0.9947626590968887,
+      1.0206921987382644
+    ],
+    "voltage_angle_degrees": [
+      0,
+      6.703943136447776,
+      1.4351383020809192,
+      -3.8125930554142893,
+      -7.563673838571543,
+      -1.2684741115332256,
+      -2.130812547973142,
+      1.1396852338978742,
+      -5.92453178344752,
+      -0.4973718902736063
+    ],
+    "source": "Frozen E15 build_audit/power_flow: source voltages and physical main-load impedances held across locations"
+  },
+  "matrix_indexing": "INTERNAL case9 matrix order; public SLX/CSV/figure bus labels use the paper IDs",
+  "paper_to_internal_bus": [
+    1,
+    2,
+    3,
+    4,
+    9,
+    5,
+    8,
+    7,
+    6
+  ],
+  "internal_to_paper_bus": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    9,
+    8,
+    7,
+    5
+  ],
+  "paper_load_bus_p_mw_q_mvar": [
+    [
+      6,
+      90,
+      30
+    ],
+    [
+      8,
+      100,
+      35
+    ],
+    [
+      5,
+      125,
+      50
+    ]
+  ],
+  "paper_auxiliary_load_bus": 6,
+  "scenario": {
+    "id": "G1_B7_B8_p010_ab",
+    "paper_line": [
+      7,
+      8
+    ],
+    "fault_type": "ll_ab",
+    "phases": [
+      1,
+      1,
+      0
+    ],
+    "ground": 0,
+    "healthy": false,
+    "reuse": false,
+    "line_id": "B7_B8",
+    "paper_bus_from": 8,
+    "paper_bus_to": 7,
+    "current_direction": "B8 towards B7; receiving current has the SAME direction",
+    "effective_ground_resistance_ohm": 1000000.0
+  },
+  "candidate_generation_authorized": true,
+  "publication_qualified": false,
+  "skip_diagnostic_plots": true,
+  "candidate_limits": [
+    "Generation authorized; numerical/physical/publication qualification NOT established.",
+    "345kV static-source, constant-Z 365MW/115MVAr case9-derived network, not original230kV.",
+    "All14E16 voltage failures retained; no new solver-accuracy certification.",
+    "Paper kilometer coordinates assigned to fixed case9 total RLC; original per-km equivalence not established.",
+    "Selected-line lumped-pi segmentation/snubber position changes with location.",
+    "Only one timing, resistance and operating point; no independent contact-state telemetry.",
+    "Bus currents are derived; B6 main current excludes separately logged50MW auxiliary.",
+    "Shared events across views are not independent test samples; no old folds reused."
+  ],
+  "spatial_contract": {
+    "profile_id": "C1E19_case9_365MW_BE1p25us_40k_v1",
+    "line": "B7_B8",
+    "ref_bus": 7,
+    "other_bus": 8,
+    "line_length_km": 50,
+    "position_km": 10,
+    "internal_fraction_from": 0.8,
+    "convention": "Historical line coordinate; case9 total RLC allocated proportionally, not old-network calibration"
+  }
+}

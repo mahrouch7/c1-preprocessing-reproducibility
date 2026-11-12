@@ -1,0 +1,26 @@
+[
+  {
+    "action": "inspect",
+    "purpose": "Check configured inputs; optional SHA256 verification, no scientific imports"
+  },
+  {
+    "action": "compare",
+    "purpose": "Recompute the five common ML/ResNet/InceptionTime comparisons from saved held-out predictions; no training/new noise/significance tests"
+  },
+  {
+    "action": "export-ml",
+    "purpose": "Verify and export four existing ML tables/index; no recomputation"
+  },
+  {
+    "action": "plan-resnet",
+    "purpose": "Describe frozen three-condition pilot job plan; no optimizer/training"
+  },
+  {
+    "action": "plan-inception",
+    "purpose": "Describe frozen three-condition pilot job plan; no optimizer/training"
+  },
+  {
+    "action": "plot-comparison",
+    "purpose": "Run original comparative plotting tool on explicitly selected derived analysis; PDFs require visual review"
+  }
+]

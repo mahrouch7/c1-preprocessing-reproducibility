@@ -1,0 +1,33 @@
+"""Graphics only: saved comparison tables; unchanged vector ABC/ABCG panel is merged separately."""
+from pathlib import Path
+import sys,csv
+sys.path.insert(0,sys.argv[1])
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
+P=Path(__file__).resolve().parent
+with (P/'data/metrics_per_run.csv').open(newline='',encoding='utf-8') as f:rows=list(csv.DictReader(f))
+with (P/'data/metrics_summary.csv').open(newline='',encoding='utf-8') as f:summary=list(csv.DictReader(f))
+cases=[('shared_clean','clean'),('clean_trained','awgn__20'),('noise_matched','awgn__20'),('clean_trained','mixed_gain_additive__10'),('noise_matched','mixed_gain_additive__10')]
+plt.rcParams.update({'font.size':8,'pdf.fonttype':42,'svg.fonttype':'none'})
+fig,axes=plt.subplots(1,2,figsize=(7.25,2.65),sharey=True)
+styles={'ResNet':('#b24a33','D',-.10),'InceptionTime':('#6a3d9a','*',.10)}
+for ax,metric,title in zip(axes,['macro_f1','healthy_false_alarm_rate'],['(a) Macro-F1 (%)','(b) Healthy false alarms (%)']):
+    for y,(e,c) in enumerate(cases):
+        subset=[r for r in rows if r['exposure']==e and r['condition']==c]
+        ml=sorted([r for r in subset if r['model_family']=='ML'],key=lambda r:r['model'])
+        for j,r in enumerate(ml):ax.scatter(100*float(r[metric]),y+(j-11.5)*.017,color='#999999',alpha=.65,s=9,linewidth=0)
+        for model,(color,marker,offset) in styles.items():
+            units=[r for r in subset if r['model']==model]
+            for j,r in enumerate(units):ax.scatter(100*float(r[metric]),y+offset+(j-1)*.025,edgecolors=color,facecolors='none',s=14,linewidths=.7,zorder=3)
+            mean=next(r for r in summary if (r['model'],r['exposure'],r['condition'])==(model,e,c))
+            ax.scatter(100*float(mean[metric+'_mean']),y+offset,color=color,marker=marker,s=42 if marker=='*' else 20,zorder=4)
+    ax.set_xlim(-2,102);ax.set_xticks([0,25,50,75,100]);ax.set_title(title,loc='left',fontsize=9,fontweight='bold');ax.grid(axis='x',alpha=.2);ax.spines[['top','right']].set_visible(False)
+axes[0].set_yticks(range(5),['Clean','AWGN20-D','AWGN20-M','Mixed10-D','Mixed10-M']);axes[0].invert_yaxis()
+handles=[Line2D([0],[0],marker='o',ls='',color='#999999',label='24 ML pipelines',markersize=4),Line2D([0],[0],marker='D',ls='',color=styles['ResNet'][0],label='ResNet mean',markersize=5),Line2D([0],[0],marker='*',ls='',color=styles['InceptionTime'][0],label='InceptionTime mean',markersize=7),Line2D([0],[0],marker='o',ls='',markerfacecolor='none',color='#444444',label='Individual seed',markersize=4)]
+fig.suptitle('Waveform classifiers and the ABC–ABCG input audit',fontsize=11,fontweight='bold',y=.99)
+fig.legend(handles=handles,loc='upper center',bbox_to_anchor=(.52,.91),ncol=4,fontsize=7,frameon=False)
+fig.subplots_adjust(left=.13,right=.985,bottom=.13,top=.70,wspace=.22)
+fig.savefig(P/'figures/comparison_top_intermediate.pdf')
+fig.savefig(P/'figures/comparison_top_intermediate.svg')

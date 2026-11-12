@@ -1,0 +1,15 @@
+{
+  "experiment_id": "C1-E43",
+  "kernel": "mahrouch/c1-e43-inceptiontime-adapted-private-gpu-pilot",
+  "version": 2,
+  "archive_sha256": "8df9466b9dd1d6b7df3a2db8d685206fbcbd2f13e8f19247661078f39d8c0bc4",
+  "archive_bytes": 282948891,
+  "download_relative": "../../../../../Backup/C1_InceptionTime_Kaggle_staging/check_20261109_v2",
+  "import_relative": "../../../../../Backup/C1_InceptionTime_Kaggle/outputs/kaggle_imports/version2",
+  "python_relative": "../../../../../Backup/C1_ResNet1D/.venv/Scripts/python.exe",
+  "kaggle_executable_relative": "../../../../../Backup/C1_ResNet1D_Kaggle/outputs/tools/kaggle_cli_2_2_5/Scripts/kaggle.exe",
+  "previous_audit_relative": "provenance/resume_v1_audit_20261108.json",
+  "expected_jobs": 45,
+  "expected_prediction_sets": 75,
+  "scope": "Resumable download, archive identity and per-job integrity verification, extraction; no training, scientific metrics or hypothesis tests."
+}

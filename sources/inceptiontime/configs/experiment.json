@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "experiment_id": "C1-E43",
+  "protocol": "C1-E43-inceptiontime-adapted-family-v1",
+  "source_root": "../../../../../Backup/C1_E32/campaign_v1",
+  "baseline_root": "../../../../../Backup/C1_E32/recovery_numeric_v1",
+  "source_pins": {
+    "metadata.json": "d231f5d52c6ca1f6affb625a035805a85e186e2e8e1bcdd38386e6e50593f5e5",
+    "scope.json": "565a4ddf60d482a08202a0c78755f7898b81834bfc37413d9ca8fdfe0589647e",
+    "fold_design.json": "9e511e855472a04b10b9e94435fa8f9db7801feffee3d716e0a0ebfc93493d48",
+    "base/clean.npy": "50e13fd926a1a943c517a5d8b0b333f8dc44e26a0260eeec551f564f640ddfd4"
+  },
+  "dataset_view_sha256": "61c43740c1c589634b0922070a6cfab2e559c09915e5fb2e4a766c39ac247aee",
+  "expected_rows": 1839,
+  "expected_families": 39,
+  "samples": 8000,
+  "sampling_rate_hz": 40000,
+  "channels": [
+    "IB7B5_Raw_A",
+    "IB7B5_Raw_B",
+    "IB7B5_Raw_C",
+    "VB7B5_Raw_A",
+    "VB7B5_Raw_B",
+    "VB7B5_Raw_C"
+  ],
+  "labels": [
+    "noFault",
+    "ab",
+    "ac",
+    "bc",
+    "abc",
+    "ag",
+    "bg",
+    "cg",
+    "abg",
+    "acg",
+    "bcg",
+    "abcg"
+  ],
+  "architecture": {
+    "name": "adapted_multiscale_inception1d",
+    "filters_per_branch": 32,
+    "bottleneck_channels": 16,
+    "kernels": [
+      41,
+      21,
+      11
+    ],
+    "module_dilations": [
+      1,
+      1,
+      1,
+      8,
+      8,
+      8
+    ],
+    "residual_every": 3,
+    "max_pool_kernel": 3,
+    "batch_norm_eps": 1e-05,
+    "batch_norm_momentum": 0.1,
+    "initialization": "kaiming_normal_fan_out",
+    "ensemble": false
+  },
+  "training": {
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "outer_folds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "inner_split_seed": 20261029,
+    "validation_family_fraction": 0.2,
+    "max_epochs": 150,
+    "patience": 20,
+    "min_delta": 0.0001,
+    "batch_size": 16,
+    "evaluation_batch_size": 32,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "gradient_clip_norm": 5.0,
+    "class_weighting": "none",
+    "refit_full_outer_training": true,
+    "selection_metric": "family_class_standardized_macro_f1",
+    "normalization": "per_channel_mean_std_from_training_rows_and_time",
+    "deterministic_algorithms": true,
+    "num_workers": 0,
+    "cpu_threads": 4
+  },
+  "profiles": {
+    "clean": [
+      "clean"
+    ],
+    "pilot": [
+      "clean",
+      "awgn__20",
+      "mixed_gain_additive__10"
+    ],
+    "paper": [
+      "clean",
+      "awgn__10",
+      "awgn__20",
+      "awgn__40",
+      "awgn__60",
+      "awgn__120",
+      "lowfreq__10",
+      "lowfreq__20",
+      "lowfreq__40",
+      "lowfreq__60",
+      "lowfreq__120",
+      "impulsive__10",
+      "impulsive__20",
+      "impulsive__40",
+      "impulsive__60",
+      "impulsive__120",
+      "gain_plus_awgn__10",
+      "gain_plus_awgn__20",
+      "gain_plus_awgn__40",
+      "gain_plus_awgn__60",
+      "gain_plus_awgn__120",
+      "mixed_gain_additive__10",
+      "mixed_gain_additive__20",
+      "mixed_gain_additive__40",
+      "mixed_gain_additive__60",
+      "mixed_gain_additive__120"
+    ]
+  },
+  "frozen_input_reference": {
+    "experiment_id": "C1-E33",
+    "dataset": "mahrouch/c1-e33-frozen-pilot-inputs-private-v1",
+    "manifest_sha256": "1f9f9798a9d31f2891dbd3b751e90d59ab1bb987678d70c851f2f5c986604e4b",
+    "code_commit": "ab4bc5fe07e60e54317a192dc1b8cc002c24b20e",
+    "conditions": {
+      "awgn__20": {
+        "cpu_cache_receipt": {
+          "cache_key": "16f4f5a359eadfc5add6",
+          "condition": "awgn__20",
+          "dtype": "float32",
+          "sha256": "68e1c2fc3780e48020291e5697cc8e471826f566cc2c638dc715bf070ee64d45",
+          "shape": [
+            1839,
+            6,
+            8000
+          ]
+        },
+        "path": "data/conditions/awgn__20.npy",
+        "sha256": "68e1c2fc3780e48020291e5697cc8e471826f566cc2c638dc715bf070ee64d45"
+      },
+      "clean": {
+        "cpu_cache_receipt": {
+          "cache_key": "16f4f5a359eadfc5add6",
+          "condition": "clean",
+          "dtype": "float32",
+          "sha256": "508f53b37a1f73157a62c12814e3c638537a845a736adcd723318df06121bf78",
+          "shape": [
+            1839,
+            6,
+            8000
+          ]
+        },
+        "path": "data/conditions/clean.npy",
+        "sha256": "508f53b37a1f73157a62c12814e3c638537a845a736adcd723318df06121bf78"
+      },
+      "mixed_gain_additive__10": {
+        "cpu_cache_receipt": {
+          "cache_key": "16f4f5a359eadfc5add6",
+          "condition": "mixed_gain_additive__10",
+          "dtype": "float32",
+          "sha256": "265e0ac944ac6ea78af4012cb2c36d481302e6f8f4fe30c72ba0425b7f4936df",
+          "shape": [
+            1839,
+            6,
+            8000
+          ]
+        },
+        "path": "data/conditions/mixed_gain_additive__10.npy",
+        "sha256": "265e0ac944ac6ea78af4012cb2c36d481302e6f8f4fe30c72ba0425b7f4936df"
+      }
+    }
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "experiment": "C1-E37",
+  "status": "WAVEFORM_REPRODUCTION_COMPLETE_VISUAL_QA_PENDING",
+  "completed_utc": "2026-11-05T14:29:29.817624+00:00",
+  "synthetic_fixture": false,
+  "selection": {
+    "Id": 963,
+    "acquisition_id": "F_84185f3366a23e152067782a",
+    "case_receipt_sha256": "396c187c08a3af62ae888c0f954a90f83a1b09d3012b57e82fed2f7da7a9f6ba",
+    "clean_window_numeric_sha256": "5009fc78007f31748769e37a8ee1404ccdcef2e0ab61bd172566cd56c121c5d4",
+    "density_control_included": false,
+    "factors": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "family_id": "F111",
+    "fault": "ag",
+    "fold": 5,
+    "fraction": 0.5,
+    "healthy_anchor": null,
+    "line_id": "B5_B7",
+    "nominal": true,
+    "raw_relative_path": "cases/F_84185f3366a23e152067782a/raw.mat",
+    "raw_sha256": "023f28354997d7ba3293e1bd31921ad7ce1691ca7b0bb0ae28f69e14a79de4ac",
+    "source_group_id": "F111",
+    "window_id": "F_84185f3366a23e152067782a",
+    "window_sha256": "2ba902ca12172f1e1f4997fe343605330c227a6410cb45899922e228e806b2be"
+  },
+  "selection_rule": "AG, nominal load familyF111, midpoint of measured lineB5_B7, phaseA current and voltage at fixedB7terminal. Chosen from metadata before viewing waveforms or selecting a classification result. Illustrative, not representative.",
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.18.1"
+  },
+  "channels": [
+    "IB7B5_Raw_A",
+    "IB7B5_Raw_B",
+    "IB7B5_Raw_C",
+    "VB7B5_Raw_A",
+    "VB7B5_Raw_B",
+    "VB7B5_Raw_C"
+  ],
+  "current_units": "A",
+  "voltage_units": "V phase to ground",
+  "window_time_origin": "fault onset at acquisition time0.05s; retained interval[0.05,0.25)s",
+  "display_channels": [
+    0,
+    3
+  ],
+  "impulse_zoom": {
+    "first_current_A_impulse_sample": 646,
+    "start": 486,
+    "stop": 806,
+    "rule": "8-ms interval centered on first nonzero injected current-A pulse, clipped to retained window; same interval for voltage A."
+  },
+  "feature_checks": [
+    {
+      "condition": "lowfreq__10",
+      "treatment": "none",
+      "max_feature_abs_error": 5.551115123125783e-17
+    },
+    {
+      "condition": "lowfreq__10",
+      "treatment": "median",
+      "max_feature_abs_error": 0.0
+    },
+    {
+      "condition": "lowfreq__10",
+      "treatment": "savgol",
+      "max_feature_abs_error": 0.0
+    },
+    {
+      "condition": "impulsive__10",
+      "treatment": "none",
+      "max_feature_abs_error": 0.0
+    },
+    {
+      "condition": "impulsive__10",
+      "treatment": "median",
+      "max_feature_abs_error": 0.0
+    },
+    {
+      "condition": "impulsive__10",
+      "treatment": "savgol",
+      "max_feature_abs_error": 0.0
+    },
+    {
+      "condition": "mixed_gain_additive__10",
+      "treatment": "none",
+      "max_feature_abs_error": 6.938893903907228e-18
+    },
+    {
+      "condition": "mixed_gain_additive__10",
+      "treatment": "median",
+      "max_feature_abs_error": 0.0
+    },
+    {
+      "condition": "mixed_gain_additive__10",
+      "treatment": "savgol",
+      "max_feature_abs_error": 0.0
+    }
+  ],
+  "corruption_reports": [
+    {
+      "condition": "lowfreq__10",
+      "original_corruption_report": {
+        "additive_snr_db": [
+          9.999999999999998,
+          9.999999999999998,
+          9.999999999999998,
+          9.999999999999998,
+          10.000000000000002,
+          10.0
+        ],
+        "total_error_snr_db": [
+          9.999999999999998,
+          9.999999999999998,
+          9.999999999999998,
+          9.999999999999998,
+          10.000000000000002,
+          10.0
+        ]
+      }
+    },
+    {
+      "condition": "impulsive__10",
+      "original_corruption_report": {
+        "additive_snr_db": [
+          10.0,
+          9.999999999999998,
+          9.999999999999998,
+          9.999999999999998,
+          10.0,
+          9.999999999999998
+        ],
+        "total_error_snr_db": [
+          10.0,
+          9.999999999999998,
+          9.999999999999998,
+          9.999999999999998,
+          10.0,
+          9.999999999999998
+        ]
+      }
+    },
+    {
+      "condition": "mixed_gain_additive__10",
+      "original_corruption_report": {
+        "additive_snr_db": [
+          9.999999999999998,
+          10.0,
+          9.999999999999998,
+          9.999999999999998,
+          10.0,
+          9.999999999999998
+        ],
+        "total_error_snr_db": [
+          9.764406814015025,
+          9.589538409974114,
+          10.046176933297119,
+          10.520993295806258,
+          9.674506035129784,
+          9.148104564442857
+        ]
+      }
+    }
+  ],
+  "verified_feature_inputs": [
+    {
+      "path": "verified_features/lowfreq__10_none.npy",
+      "sha256": "1a49e1786f0741631ab7cd632ac13859efab2e603f60a9cf9d9d2760768fe466"
+    },
+    {
+      "path": "verified_features/lowfreq__10_median.npy",
+      "sha256": "52d1eb1e16f6e8b4093140878a0e8fe514bfde8bca0ca74a37679441423f1dee"
+    },
+    {
+      "path": "verified_features/lowfreq__10_savgol.npy",
+      "sha256": "a758bc47e81cf3e2e1e399a6f22650b27693adee5e6383526b41df0f905f0811"
+    },
+    {
+      "path": "verified_features/impulsive__10_none.npy",
+      "sha256": "8499268cc33c0e84a498a6332473bd60227e5f6d5a002edde64181bdc2c7474f"
+    },
+    {
+      "path": "verified_features/impulsive__10_median.npy",
+      "sha256": "06a8e2aacaa8e0741f81d7f1830114cfbb1eb7b99aba672951be3dfa119835fa"
+    },
+    {
+      "path": "verified_features/impulsive__10_savgol.npy",
+      "sha256": "c11da74d052368452ba71b7205adbc2a083ece265de9646d47e10a140fdaec70"
+    },
+    {
+      "path": "verified_features/mixed_gain_additive__10_none.npy",
+      "sha256": "254101a2ba453bb9e6d8f5a5616e6117f9374508b2dd250fc795e44a9970711b"
+    },
+    {
+      "path": "verified_features/mixed_gain_additive__10_median.npy",
+      "sha256": "b47106fc958dbd0dc35616143896214125e7c6bd91a4aef677e6ff491b3586f8"
+    },
+    {
+      "path": "verified_features/mixed_gain_additive__10_savgol.npy",
+      "sha256": "760b8d6ebe4ff8b2000ac79b34c0d3bff8aae9f3b5fbce48e21c97cf2c8b7136"
+    }
+  ],
+  "waveforms_sha256": "13449ff67c61793b55062d23a91ee7ee21f1fceecad5c8868972f2f9d6c7d31f",
+  "new_fits": 0,
+  "new_simulations": 0,
+  "new_significance_tests": 0,
+  "scope": "One predeclared acquisition illustrates signal changes; no classifier-effect, typicality or diagnostic-preservation claim.",
+  "protocol_sha256": "8863d2a19899815ad7d73274668f4eeedf3ebe40d1029bf18321580ed9c8f64c"
+}

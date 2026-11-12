@@ -1,0 +1,90 @@
+{
+  "status": "NUMERICAL_AUDIT_COMPLETE_PHYSICAL_INTERPRETATION_PENDING",
+  "experiment": "C1-E35",
+  "scope": "POST_HOC_SAVED_SIGNAL_DIAGNOSTICS_SEPARATE_FROM_728_CONTRASTS",
+  "pairs": 153,
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.18.1"
+  },
+  "completed_utc": "2026-11-04T15:15:24.124057+00:00",
+  "exact_point_equal_pairs": 0,
+  "distributions": {
+    "full_I_relative_l2": {
+      "defined": 153,
+      "min": 8.527835467958049e-12,
+      "median": 5.99301272113048e-11,
+      "max": 3.213744784187178e-10
+    },
+    "full_V_relative_l2": {
+      "defined": 153,
+      "min": 3.2316211377235304e-12,
+      "median": 1.4199478080479033e-11,
+      "max": 1.6665256515595706e-10
+    },
+    "early20ms_I_relative_l2": {
+      "defined": 153,
+      "min": 8.152875265724569e-12,
+      "median": 5.810648155464913e-11,
+      "max": 3.0681851058481536e-10
+    },
+    "early20ms_V_relative_l2": {
+      "defined": 153,
+      "min": 3.4175023495021767e-12,
+      "median": 1.505678847557186e-11,
+      "max": 1.3851712583958506e-10
+    },
+    "late_I_relative_l2": {
+      "defined": 153,
+      "min": 7.98043668492346e-12,
+      "median": 6.185759541121375e-11,
+      "max": 3.2297872898333e-10
+    },
+    "late_V_relative_l2": {
+      "defined": 153,
+      "min": 3.2099524688013612e-12,
+      "median": 1.3913726680889675e-11,
+      "max": 1.7091597754252087e-10
+    },
+    "prefault_I_relative_l2": {
+      "defined": 153,
+      "min": 4.084485594681192e-11,
+      "median": 2.1691672633651255e-10,
+      "max": 6.773023660581241e-10
+    },
+    "prefault_V_relative_l2": {
+      "defined": 153,
+      "min": 3.876861019606738e-12,
+      "median": 1.913302502535126e-11,
+      "max": 1.8535050062266668e-10
+    },
+    "fault_i_relative_l2": {
+      "defined": 153,
+      "min": 5.618412498539105e-12,
+      "median": 1.5767503731801305e-11,
+      "max": 1.219744782706438e-10
+    },
+    "fault_v_relative_l2": {
+      "defined": 153,
+      "min": 1.1534569759882652e-10,
+      "median": 9.049605915605234e-10,
+      "max": 1.1512512861915095e-08
+    }
+  },
+  "aggregation": "Unweighted matched pairs; nominal family has denser spatial sampling. Not the classifier-score estimand.",
+  "new_fits": 0,
+  "new_simulations": 0,
+  "new_statistical_inference": false,
+  "physical_equivalence_or_bayes_ceiling_established": false,
+  "limitations": [
+    "Scheduled command is not independently observed contact state.",
+    "Fault-branch current includes snubber leakage.",
+    "Small numerical differences are not automatically physical or numerical artifacts.",
+    "No time-step convergence or external observability is certified.",
+    "No labels, training or manuscript content changed."
+  ],
+  "protocol_sha256": "ae5693691f816a1ec55b7a8b4c5ef491218d370b95782cfe9ca152197b543f7e",
+  "script_sha256": "9c805111f648814bcf82686461e02e551a3d1766d2ca97dcaa3c69995a8d8745",
+  "metadata_sha256": "d231f5d52c6ca1f6affb625a035805a85e186e2e8e1bcdd38386e6e50593f5e5"
+}

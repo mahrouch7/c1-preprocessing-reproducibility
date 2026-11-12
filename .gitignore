@@ -1,0 +1,14 @@
+/paths.local.json
+/outputs/
+/archives/
+/data/*
+!/data/README.md
+!/data/archives.json
+**/__pycache__/
+*.pyc
+.venv/
+.env
+kaggle.json
+*.zip
+*.pt
+*.pth

@@ -1,0 +1,250 @@
+"""Seven vector composites from saved, reconciled E32/E33 results only."""
+from pathlib import Path
+import argparse
+import csv
+import hashlib
+import json
+import os
+import sys
+from statistics import median
+
+ROOT=Path(__file__).resolve().parents[1]
+parser=argparse.ArgumentParser();parser.add_argument('--deps',type=Path);args=parser.parse_args()
+if args.deps:sys.path.insert(0,str(args.deps))
+os.environ['MPLCONFIGDIR']=str(ROOT/'qa/mplconfig')
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
+from matplotlib.colors import TwoSlopeNorm
+
+OUT=ROOT/'overleaf/output/pdf';OUT.mkdir(parents=True,exist_ok=True)
+plt.rcParams.update({'font.family':'DejaVu Sans','font.size':8,'axes.titlesize':8.5,'axes.labelsize':8,
+                     'xtick.labelsize':7,'ytick.labelsize':7,'legend.fontsize':7,'pdf.fonttype':42,
+                     'svg.fonttype':'none','svg.hashsalt':'C1SectionIV20261103','axes.spines.top':False,
+                     'axes.spines.right':False,'axes.linewidth':.65,'grid.linewidth':.45})
+NOISE=['awgn','lowfreq','impulsive','gain_plus_awgn','mixed_gain_additive']
+NAMES=['AWGN','Low-frequency','Impulsive','Gain + AWGN','Mixed']
+SHORT=['AWGN','LF','Imp','Gain','Mix']
+SNRS=[10,20,40,60,120]
+REPS=['RMS6','RAW12','MULTI18']
+COLORS=['#0072B2','#D55E00','#009E73']
+PREPS=['median','savgol','wavelet_soft','wavelet_hard']
+PNAMES=['Median','SG','Soft','Hard'];PCOLORS=['#0072B2','#D55E00','#009E73','#CC79A7']
+MODELS=['logistic_regression','random_forest','naive_bayes','knn','decision_tree','svm','gradient_boosting','mlp']
+FIGURES=[]
+
+
+def rows(name):
+    with (ROOT/name).open(encoding='utf-8',newline='') as stream:return list(csv.DictReader(stream))
+
+
+def save(fig,name,sources):
+    for extension in ['pdf','svg']:
+        metadata={'CreationDate':None,'ModDate':None} if extension=='pdf' else {'Date':None}
+        fig.savefig(OUT/(name+'.'+extension),metadata=metadata,facecolor='white')
+    svg=OUT/(name+'.svg');svg.write_text('\n'.join(line.rstrip() for line in svg.read_text(encoding='utf-8').splitlines())+'\n',encoding='utf-8',newline='\n')
+    FIGURES.append({'name':name,'width_inches':float(fig.get_figwidth()),'height_inches':float(fig.get_figheight()),
+                    'sources':sources,'pdf_sha256':hashlib.sha256((OUT/(name+'.pdf')).read_bytes()).hexdigest(),
+                    'svg_sha256':hashlib.sha256(svg.read_bytes()).hexdigest(),'actual_pdf_visual_QA':'PENDING'})
+    plt.close(fig)
+
+
+def snr_axis(ax,ylim):
+    ax.set_xlim(7,123);ax.set_xticks([10,20,40,60,120]);ax.tick_params(axis='x',rotation=45)
+    ax.set_ylim(*ylim);ax.grid(axis='y',color='#dddddd');ax.set_axisbelow(True)
+
+
+def core_curves():
+    data=rows('robustness_curves_verified.csv');fig,axes=plt.subplots(2,3,figsize=(7.25,4.15))
+    for j,(noise,title) in enumerate(zip(NOISE,NAMES)):
+        ax=axes.flat[j]
+        for rep,color in zip(REPS,COLORS):
+            for protocol,style,marker in [('deployment','-','o'),('matched','--','o')]:
+                rs=[next(r for r in data if r['noise']==noise and r['representation']==rep and r['protocol']==protocol and int(r['snr'])==s) for s in SNRS]
+                ax.plot(SNRS,[float(r['median_macro_f1_pct']) for r in rs],style,color=color,lw=1.2,marker=marker,ms=3,
+                        mfc='white' if protocol=='matched' else color,mew=.9)
+        snr_axis(ax,(0,100));ax.set_title(title,fontweight='bold');ax.set_yticks([0,50,100])
+        if j%3==0:ax.set_ylabel('Macro-F1 (%)')
+    ax=axes.flat[-1];ax.axis('off')
+    ax.legend(handles=[Line2D([],[],color=c,label=r,lw=1.5) for r,c in zip(REPS,COLORS)],loc='upper left',frameon=False)
+    ax.text(.02,.50,'Solid: clean-trained\nDashed: noise-matched',transform=ax.transAxes,fontsize=8,va='top',linespacing=1.5)
+    ax.text(.02,.20,'Median of eight fixed learners.\nClean reference: Section III.',transform=ax.transAxes,fontsize=7.3,va='top',linespacing=1.4)
+    fig.subplots_adjust(left=.07,right=.985,top=.91,bottom=.15,wspace=.28,hspace=.60)
+    fig.text(.5,.015,'Additive SNR (dB)',ha='center',fontsize=8)
+    save(fig,'robustness_snr_core',['robustness_curves_verified.csv'])
+
+
+def gap_and_classes():
+    data=rows('protocol_gaps_verified.csv');classes=rows('classwise_verified.csv')
+    labels=['noFault','ag','bg','cg','ab','ac','bc','abg','acg','bcg','abc','abcg']
+    matrix=[];rowlabels=[]
+    specs=[('deployment','clean','Clean')]+[(p,f'{n}__10',('D:' if p=='deployment' else 'M:')+s) for p in ['deployment','matched'] for n,s in zip(NOISE,SHORT)]
+    for protocol,condition,label in specs:
+        values=[]
+        for c in labels:
+            rr=[float(r['recall']) for r in classes if r['label']==c and r['protocol']==protocol and r['condition']==condition]
+            assert len(rr)==24
+            values.append(100*median(rr))
+        matrix.append(values);rowlabels.append(label)
+    fig=plt.figure(figsize=(7.25,3.7));a=fig.add_axes([.07,.39,.28,.45]);b=fig.add_axes([.535,.33,.445,.55])
+    gap=np.array([[next(float(r['median_paired_gap_pp']) for r in data if r['noise']==n and int(r['snr'])==s) for s in SNRS] for n in NOISE])
+    im=a.imshow(gap,cmap='RdBu',vmin=-70,vmax=70,aspect='auto');a.set_xticks(range(5),SNRS);a.set_yticks(range(5),SHORT)
+    a.set_title('(a) Matched minus clean-trained',fontsize=8.1,pad=9);a.set_xlabel('Additive SNR (dB)')
+    for ij in np.ndindex(gap.shape):a.text(ij[1],ij[0],f'{gap[ij]:.1f}',ha='center',va='center',fontsize=7.2,color='white' if abs(gap[ij])>45 else 'black')
+    cax=fig.add_axes([.07,.25,.28,.025]);cb=fig.colorbar(im,cax=cax,orientation='horizontal');cb.set_label('Median paired Macro-F1 gap (points)',fontsize=7);cb.ax.tick_params(labelsize=6.5)
+    z=np.array(matrix);im2=b.imshow(z,cmap='Blues',vmin=0,vmax=100,aspect='auto')
+    b.set_xticks(range(12),['H']+[s.upper() for s in labels[1:]],rotation=90);b.set_yticks(range(11),rowlabels)
+    b.set_title('(b) Class recall at 10 dB',fontsize=8.2,pad=9)
+    for ij in np.ndindex(z.shape):b.text(ij[1],ij[0],f'{z[ij]:.0f}',ha='center',va='center',fontsize=6.8,color='white' if z[ij]>65 else 'black')
+    b.axhline(.5,color='black',lw=.7);b.axhline(5.5,color='black',lw=.7)
+    cax=fig.add_axes([.535,.14,.445,.025]);cb=fig.colorbar(im2,cax=cax,orientation='horizontal');cb.set_label('Median recall (%)',fontsize=7);cb.ax.tick_params(labelsize=6.5)
+    fig.text(.07,.04,'D: clean-trained   M: noise-matched\nH: healthy; clean row is shared.',fontsize=7)
+    save(fig,'protocol_gap_and_class_recall',['protocol_gaps_verified.csv','classwise_verified.csv'])
+
+
+def resnet():
+    neural=rows('resnet_summary_verified.csv');seeds=rows('resnet_seeds_verified.csv');scores=rows('pipeline_scores_verified.csv')
+    cases=[('shared_clean','clean','Clean\nshared reference'),('clean_trained','awgn__20','AWGN20\nclean-trained'),('noise_matched','awgn__20','AWGN20\nnoise-matched'),('clean_trained','mixed_gain_additive__10','Mixed10\nclean-trained'),('noise_matched','mixed_gain_additive__10','Mixed10\nnoise-matched')]
+    fig,axes=plt.subplots(1,3,figsize=(7.25,3.45),sharey=True)
+    for ax,metric,title,mult in zip(axes,['macro_f1','balanced_accuracy','mcc'],['(a) Macro-F1 (%)','(b) BA (%)','(c) MCC'],[100,100,1]):
+        lows=[]
+        for i,(exposure,condition,_) in enumerate(cases):
+            protocol='matched' if exposure=='noise_matched' else 'deployment'
+            ml=[float(r[metric])*mult for r in scores if r['study']=='robustness' and r['preprocessor']=='none' and r['representation'] in REPS and r['protocol']==protocol and r['condition']==condition];assert len(ml)==24
+            nr=next(r for r in neural if (r['exposure'],r['condition'])==(exposure,condition));sr=[r for r in seeds if (r['exposure'],r['condition'])==(exposure,condition)]
+            y=i+np.linspace(-.19,.19,24)
+            ax.scatter(ml,y,s=9,c='#888888',alpha=.65,zorder=2)
+            ax.plot([median(ml)],[i],marker='|',color='black',ms=13,mew=1.4,zorder=3)
+            ax.scatter([float(r[metric])*mult for r in sr],i+np.array([-.12,0,.12]),marker='D',s=18,facecolors='none',edgecolors='#0072B2',lw=.9,zorder=5)
+            ax.errorbar(float(nr[metric+'_mean'])*mult,i,xerr=float(nr[metric+'_sd'])*mult,fmt='s',ms=3.5,color='#D55E00',capsize=2,lw=1.3,zorder=4)
+            lows+=ml
+        ax.set_title(title);ax.set_ylim(4.6,-.6);ax.grid(axis='x',color='#dddddd');ax.set_axisbelow(True)
+        ax.set_xlim((-.1,1.02) if metric=='mcc' else (-2,102));ax.set_xticks([0,.5,1] if metric=='mcc' else [0,50,100])
+    axes[0].set_yticks(range(5),[x[2] for x in cases]);axes[0].tick_params(axis='y',length=0)
+    handles=[Line2D([],[],ls='',marker='o',color='#888888',label='24 fixed ML pipelines',ms=3),Line2D([],[],ls='',marker='|',color='black',label='ML median',ms=9),Line2D([],[],ls='',marker='D',mfc='none',color='#0072B2',label='Three ResNet initializations',ms=4),Line2D([],[],marker='s',color='#D55E00',label='ResNet mean and seed SD',ms=3)]
+    fig.legend(handles=handles,ncol=2,loc='lower center',frameon=False,fontsize=7)
+    fig.subplots_adjust(left=.18,right=.98,top=.89,bottom=.22,wspace=.25)
+    save(fig,'resnet_vs_fixed_ml',['resnet_summary_verified.csv','resnet_seeds_verified.csv','pipeline_scores_verified.csv'])
+
+
+def denoising():
+    data=rows('denoising_effects_verified.csv');fig=plt.figure(figsize=(7.25,3.5))
+    gs=fig.add_gridspec(2,5,height_ratios=[1.6,1],left=.10,right=.98,top=.88,bottom=.13,hspace=.60,wspace=.20)
+    for j,(n,title) in enumerate(zip(NOISE,SHORT)):
+        ax=fig.add_subplot(gs[0,j])
+        for prep,color in zip(PREPS,PCOLORS):
+            rs=[next(r for r in data if r['noise']==n and r['preprocessor']==prep and int(r['snr'])==s) for s in SNRS]
+            ax.plot(SNRS,[float(r['median_paired_change_pp']) for r in rs],color=color,marker='o',ms=2.2,lw=1)
+        ax.axhline(0,color='black',lw=.7);ax.grid(axis='y',color='#dddddd');ax.set_title(title);ax.set_xlim(8,122);ax.set_xticks([10,60,120]);ax.set_ylim(-8,45)
+        if j:ax.set_yticklabels([])
+        else:ax.set_ylabel('Macro-F1 change\n(points)')
+    ax=fig.add_subplot(gs[1,:]);z=np.array([[next(float(r['median_paired_change_pp']) for r in data if r['noise']==n and r['preprocessor']==p and r['snr']=='10') for n in NOISE] for p in PREPS])
+    im=ax.imshow(z,cmap='RdBu',vmin=-45,vmax=45,aspect='auto');ax.set_yticks(range(4),PNAMES);ax.set_xticks(range(5),SHORT)
+    ax.set_title('At 10 dB: median paired changes across the same 24 pipelines',fontsize=8,pad=6)
+    for ij in np.ndindex(z.shape):ax.text(ij[1],ij[0],f'{z[ij]:+.1f}' if abs(z[ij])>=.05 else '0.0',ha='center',va='center',fontsize=7.5,color='white' if abs(z[ij])>30 else 'black')
+    fig.legend(handles=[Line2D([],[],color=c,label=n,lw=1.3) for c,n in zip(PCOLORS,PNAMES)],loc='upper center',ncol=4,frameon=False,bbox_to_anchor=(.54,1.01))
+    fig.text(.5,.012,'Upper panels: additive SNR (dB). Positive changes favour filtering; all curves are descriptive.',ha='center',fontsize=7)
+    save(fig,'denoising_snr_and_effects',['denoising_effects_verified.csv'])
+
+
+def average_ranks(values):
+    a=np.asarray(values);order=np.argsort(a,kind='stable');result=np.empty(len(a));i=0
+    while i<len(a):
+        j=i+1
+        while j<len(a) and a[order[j]]==a[order[i]]:j+=1
+        result[order[i:j]]=(i+j-1)/2+1;i=j
+    return result
+
+
+def tpi():
+    data=rows('tpi_diagnostics_verified.csv');scores=rows('pipeline_scores_verified.csv')
+    fig,axes=plt.subplots(1,3,figsize=(7.25,2.9));operator='DWT_D3_2500_5000Hz'
+    for p,c,name in zip(PREPS,PCOLORS,PNAMES):
+        values=[median(float(r['median_tpi_noisy']) for r in data if r['operator']==operator and r['preprocessor']==p and any(r['condition']==f'{n}__{s}' for n in NOISE)) for s in SNRS]
+        assert min(values)>0;axes[0].plot(SNRS,values,color=c,lw=1.2)
+    axes[0].set_yscale('log');axes[0].axhline(1,color='black',ls=':',lw=.8);axes[0].set_xticks([10,60,120]);axes[0].set_xlabel('Additive SNR (dB)');axes[0].set_ylabel('Median TPI (log scale)');axes[0].set_title('(a) Across mechanisms/channels',fontsize=7.6)
+    allpreps=['none']+PREPS;allcolors=['#333333']+PCOLORS;markers=['o','s','^','D','P'];points=[];rho={}
+    for ax,n,title in zip(axes[1:],['lowfreq','mixed_gain_additive'],['(b) Low-frequency','(c) Mixed']):
+        xs=[];ys=[]
+        for p,c in zip(allpreps,allcolors):
+            for s,marker in zip(SNRS,markers):
+                condition=f'{n}__{s}'
+                x=median(float(r['median_tpi_noisy']) for r in data if r['operator']==operator and r['preprocessor']==p and r['condition']==condition)
+                vals=[float(r['macro_f1'])*100 for r in scores if r['study']=='robustness' and r['preprocessor']==p and r['protocol']=='deployment' and r['condition']==condition and r['representation']=='MULTI18'];assert len(vals)==8
+                y=median(vals);assert x>0
+                ax.scatter(x,y,c=c,marker=marker,s=20,linewidths=.7,zorder=3);xs.append(x);ys.append(y)
+                points.append({'noise':n,'snr':s,'preprocessor':p,'median_channel_tpi':x,'median_classifier_macro_f1_pct':y})
+        rho[n]=float(np.corrcoef(average_ranks(xs),average_ranks(ys))[0,1])
+        if n=='mixed_gain_additive':
+            from matplotlib.ticker import NullFormatter
+            ax.set_xscale('log');ax.xaxis.set_minor_formatter(NullFormatter());ax.set_xlabel('TPI (log scale)')
+        else:
+            ax.locator_params(axis='x',nbins=3);ax.set_xlabel('TPI')
+        ax.set_ylim(0,100);ax.set_yticks([0,50,100]);ax.set_title(title);ax.grid(axis='y',color='#dddddd');ax.set_ylabel('Macro-F1 (%)')
+    with (ROOT/'tpi_association_points_verified.csv').open('w',encoding='utf-8',newline='') as f:
+        writer=csv.DictWriter(f,fieldnames=list(points[0]),lineterminator='\n');writer.writeheader();writer.writerows(points)
+    expected={r['noise']:float(r['spearman_rho']) for r in rows_from_external('tpi_exploratory_association.csv') if r['operator']==operator}
+    assert all(abs(rho[k]-expected[k])<1e-12 for k in rho),(rho,expected)
+    handles=[Line2D([],[],color=c,label=n,lw=1.3) for c,n in zip(allcolors,['None']+PNAMES)]
+    handles += [Line2D([],[],ls='',marker=m,color='black',label=str(s)+' dB',ms=4) for m,s in zip(markers,SNRS)]
+    fig.legend(handles=handles,ncol=5,loc='lower center',frameon=False,fontsize=6.7)
+    fig.subplots_adjust(left=.075,right=.98,top=.84,bottom=.29,wspace=.55)
+    save(fig,'tpi_energy_and_task',['tpi_diagnostics_verified.csv','pipeline_scores_verified.csv','tpi_association_points_verified.csv'])
+
+
+def rows_from_external(name):
+    with (Path('F:/Backup/C1_E32/recovery_numeric_v1/final_analysis')/name).open(encoding='utf-8',newline='') as f:return list(csv.DictReader(f))
+
+
+def fusion():
+    data=rows('fusion_effects_verified.csv');contrasts=rows('paired_contrasts_verified.csv')
+    fig=plt.figure(figsize=(7.25,3.75));gs=fig.add_gridspec(2,5,height_ratios=[1.45,1.2],left=.12,right=.98,top=.86,bottom=.12,hspace=.56,wspace=.20)
+    curves=[('early','RMS6','#0072B2','-'),('early','RAW12','#0072B2','--'),('late','RMS6','#D55E00','-'),('late','RAW12','#D55E00','--'),('oracle','RMS6','#666666',':')]
+    for j,(n,title) in enumerate(zip(NOISE,SHORT)):
+        ax=fig.add_subplot(gs[0,j])
+        for method,constituent,color,style in curves:
+            values=[next(float(r['median_paired_change_pp']) for r in data if r['noise']==n and int(r['snr'])==s and r['fusion']==method and r['constituent']==constituent) for s in SNRS]
+            ax.plot(SNRS,values,color=color,ls=style,lw=1.15)
+        ax.axhline(0,color='black',lw=.7);ax.set_title(title);ax.set_xlim(8,122);ax.set_xticks([10,60,120]);ax.set_ylim(-80,80);ax.grid(axis='y',color='#dddddd')
+        if j:ax.set_yticklabels([])
+        else:ax.set_ylabel('Fusion minus constituent\nMacro-F1 (points)')
+    combos=[('early','RMS6','early_vs_RMS6','Early - RMS6'),('early','RAW12','early_vs_RAW12','Early - RAW12'),('late','RMS6','late_vs_RMS6','Late - RMS6'),('late','RAW12','late_vs_RAW12','Late - RAW12')]
+    z=np.array([[next(float(r['median_paired_change_pp']) for r in data if r['noise']==n and r['snr']=='10' and r['fusion']==m and r['constituent']==c) for n in NOISE] for m,c,_,_ in combos])
+    ax=fig.add_subplot(gs[1,:]);im=ax.imshow(z,cmap='RdBu',vmin=-80,vmax=80,aspect='auto');ax.set_yticks(range(4),[v[3] for v in combos]);ax.set_xticks(range(5),SHORT);ax.set_title('At 10 dB: paired medians and supported individual directions',fontsize=8,pad=6)
+    for i,(_,_,family,_) in enumerate(combos):
+        for j,n in enumerate(NOISE):
+            rs=[r for r in contrasts if r['family']==family and r['left_condition']==f'{n}__10'];assert len(rs)==8
+            pos=sum(r['interpretation']=='SUPPORTED_POSITIVE_DIFFERENCE' for r in rs);neg=sum(r['interpretation']=='SUPPORTED_NEGATIVE_DIFFERENCE' for r in rs);mc=sum(r['interpretation']=='MONTE_CARLO_PRECISION_REVIEW' for r in rs)
+            value=z[i,j];label=f'{value:+.1f}\n{pos}+ / {neg}-'+(f'  ?{mc}' if mc else '')
+            ax.text(j,i,label,ha='center',va='center',fontsize=6.7,color='white' if abs(value)>50 else 'black',linespacing=1.15)
+    handles=[Line2D([],[],color=c,ls=s,label=('Oracle - RMS6' if m=='oracle' else m.title()+' - '+r),lw=1.2) for m,r,c,s in curves]
+    fig.legend(handles=handles,ncol=3,loc='upper center',frameon=False,bbox_to_anchor=(.55,1.015),fontsize=6.8)
+    fig.text(.54,.012,'Upper panels: additive SNR (dB). Lower counts: supported positive/negative cases; ? = precision review.',ha='center',fontsize=6.7)
+    save(fig,'fusion_snr_and_constituents',['fusion_effects_verified.csv','paired_contrasts_verified.csv'])
+
+
+def descriptors():
+    data=rows('paired_contrasts_verified.csv');fig,axes=plt.subplots(1,2,figsize=(7.25,2.85))
+    configs=[(m,r) for m in ['logistic_regression','random_forest','naive_bayes','svm'] for r in ['RAW12','MULTI18']]
+    conditions=['awgn__10','awgn__20','impulsive__10','impulsive__20','mixed_gain_additive__10','mixed_gain_additive__20']
+    labels=['AWGN10','AWGN20','Imp10','Imp20','Mixed10','Mixed20'];display=['LR\nR','LR\nM','RF\nR','RF\nM','NB\nR','NB\nM','SVM\nR','SVM\nM']
+    for ax,family,title in zip(axes,['skew_vs_base','bundle_vs_base'],['(a) Skewness extension minus base','(b) Three-descriptor bundle minus base']):
+        rs=[[next(r for r in data if r['family']==family and r['left_classifier']==m and r['right_representation']==rep and r['left_condition']==c) for m,rep in configs] for c in conditions]
+        z=np.array([[100*float(r['difference']) for r in rr] for rr in rs]);im=ax.imshow(z,cmap='RdBu',vmin=-55,vmax=55,aspect='auto')
+        ax.set_xticks(range(8),display);ax.set_yticks(range(6),labels);ax.xaxis.tick_top();ax.set_title(title,pad=32,fontsize=8)
+        for ij in np.ndindex(z.shape):
+            state=rs[ij[0]][ij[1]]['interpretation'];value=z[ij];text=f'{value:+.1f}' if abs(value)>=.05 else '0.0'
+            if state=='MONTE_CARLO_PRECISION_REVIEW':text+='?'
+            ax.text(ij[1],ij[0],text,ha='center',va='center',fontsize=6.8,fontweight='bold' if state.startswith('SUPPORTED_') else 'normal',color='white' if abs(value)>35 else 'black')
+    fig.subplots_adjust(left=.08,right=.98,top=.68,bottom=.21,wspace=.34)
+    cax=fig.add_axes([.27,.13,.5,.025]);cb=fig.colorbar(im,cax=cax,orientation='horizontal');cb.set_label('Paired Macro-F1 change (points); R: RAW12, M: MULTI18',fontsize=7);cb.ax.tick_params(labelsize=6.5)
+    save(fig,'descriptor_extensions_paired',['paired_contrasts_verified.csv'])
+
+
+if __name__=='__main__':
+    core_curves();gap_and_classes();resnet();denoising();tpi();fusion();descriptors()
+    assert len(FIGURES)==7
+    (ROOT/'figure_checks.json').write_text(json.dumps({'status':'GENERATED_AWAITING_ACTUAL_PDF_RENDER_INSPECTION','figures':FIGURES},indent=2)+'\n',encoding='utf-8',newline='\n')
+    print('Generated seven PDF/SVG composites. No models, intervals or tests were recomputed.')

@@ -1,0 +1,52 @@
+"""Compose verified network PDF with a compact evaluation diagram; no data analysis.
+
+Run from PROJECT_ROOT with the PDF runtime. The original diagram stays intact.
+"""
+from pathlib import Path
+import io
+from reportlab.pdfgen.canvas import Canvas
+from pypdf import PdfReader, PdfWriter, Transformation
+
+ROOT = Path(__file__).resolve().parents[1]
+SHORT = Path(__file__).resolve().parents[1]
+SOURCE = ROOT / 'intermediate/network.pdf'
+OUT = ROOT / 'intermediate/protocol.pdf'
+
+buf = io.BytesIO()
+c = Canvas(buf, pagesize=(522, 258), invariant=1)
+c.setTitle('Shared Acquisitions and Family-Disjoint Evaluation')
+c.setFillColorRGB(.08,.15,.20)
+c.setFont('Helvetica-Bold', 9)
+c.drawCentredString(394, 246, 'From Acquisitions to Held-Out Predictions')
+
+def box(y, title, lines, color=(.94,.97,.98)):
+    c.setFillColorRGB(*color); c.setStrokeColorRGB(.45,.56,.61)
+    c.roundRect(269,y,248,37,4,fill=1,stroke=1)
+    c.setFillColorRGB(.08,.15,.20);c.setFont('Helvetica-Bold',8.5)
+    c.drawCentredString(393,y+25,title)
+    c.setFont('Helvetica',8)
+    for n,line in enumerate(lines): c.drawCentredString(393,y+14-10*n,line)
+
+def arrow(y1,y2):
+    c.setStrokeColorRGB(.2,.4,.5);c.setFillColorRGB(.2,.4,.5)
+    c.line(393,y1,393,y2+3)
+    p=c.beginPath();p.moveTo(390,y2+4);p.lineTo(396,y2+4);p.lineTo(393,y2);p.close()
+    c.drawPath(p,stroke=0,fill=1)
+
+box(197,'1,839 clean records / 12 labels',['Six channels; retained window [50,250) ms'])
+arrow(197,190)
+box(151,'39 acquisition families / five fixed folds',['All variants of a record stay in its family'])
+arrow(151,144)
+box(105,'Shared clean / corrupted test waveforms',['Five mechanisms; five additive SNRs'])
+arrow(105,98)
+box(59,'Training exposure + fixed processing',['Clean-trained or noise-matched training', 'Filter train/test; descriptors or ResNet'])
+arrow(59,52)
+box(13,'Held-out predictions, paired comparisons',['Family/class weights; Macro-F1 + error checks'])
+c.showPage();c.save()
+page=PdfReader(io.BytesIO(buf.getvalue())).pages[0]
+network=PdfReader(SOURCE).pages[0]
+page.merge_transformed_page(network,Transformation().translate(0,0),over=False)
+w=PdfWriter();w.add_page(page)
+w.add_metadata({'/Title':'Shared Acquisitions and Family-Disjoint Evaluation'})
+with OUT.open('wb') as f:w.write(f)
+print(OUT.name)
