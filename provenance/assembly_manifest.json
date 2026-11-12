@@ -1198,8 +1198,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "cc048586c4282020f624a866dfab93e3b14fcc7b0d48bbc81edfa9e9d6c787a0",
-      "bytes": 5428,
+      "sha256": "db067aebdcaa6a3c2c792b24a3b8be602238e165d079cadc8521d64e658d41f6",
+      "bytes": 6881,
       "role": "release_documentation_or_wrapper"
     },
     {
@@ -1222,8 +1222,8 @@
     },
     {
       "path": "data/archives.json",
-      "sha256": "4aba521361f023aa96e289c293a64f47ef4496f9b72313e4774b1ca2ea09e1a7",
-      "bytes": 539,
+      "sha256": "6be272bd2b536ea9f12eb76f365902575ba62434c6d35bf17c8439dfa71947bc",
+      "bytes": 1565,
       "role": "release_documentation_or_wrapper"
     },
     {
@@ -1259,5 +1259,18 @@
   "original_source_bytes_preserved": true,
   "reproduction_scope": "17 comparison tables from archived predictions; 5 charts from frozen plotting inputs",
   "runtime_of_this_assembled_layout": "NOT_RUN",
-  "publication_performed": false
+  "publication_performed": false,
+  "documentation_update": {
+    "decision": "C1-D202",
+    "prepared_tunis": "2026-11-12T13:08:05+01:00",
+    "base_git_commit": "4d73fa3848298e99317cdec6e7a7f22c8a496478",
+    "base_manifest_sha256": "93e6f3150ec12d9e4a3c9f28db10560cd147f0b63625fa2474b8ee1a1244780a",
+    "changed_documentation": [
+      "README.md",
+      "data/archives.json"
+    ],
+    "dataset_version_url": "https://www.kaggle.com/datasets/mahrouch/c1-reproduction-archives-v1/versions/1",
+    "scientific_sources_changed": false,
+    "visibility_change_requested": false
+  }
 }

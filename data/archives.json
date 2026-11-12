@@ -6,15 +6,32 @@
       "sha256": "b40be8567c85924c940d9de034fc2aeb21cfd1ae39323dad04819b0ba6c7e7f0",
       "bytes": 1333211658,
       "download_url": null,
-      "licence": "CC-BY-4.0"
+      "licence": "CC-BY-4.0",
+      "transport_filename": "C1_predictions_metadata.zip.bin",
+      "transport_sha256": "b40be8567c85924c940d9de034fc2aeb21cfd1ae39323dad04819b0ba6c7e7f0",
+      "transport_bytes": 1333211658,
+      "restore_instruction": "Verify SHA256 and byte count; copy or rename to filename without extracting or recompressing."
     },
     {
       "filename": "C1_clean_windows_features.zip",
       "sha256": "07d82a9a0991717943e7ee5494e0c36d0cf942fc69f624f801480eccc80f3c7d",
       "bytes": 759223785,
       "download_url": null,
-      "licence": "CC-BY-4.0"
+      "licence": "CC-BY-4.0",
+      "transport_filename": "C1_clean_windows_features.zip.bin",
+      "transport_sha256": "07d82a9a0991717943e7ee5494e0c36d0cf942fc69f624f801480eccc80f3c7d",
+      "transport_bytes": 759223785,
+      "restore_instruction": "Verify SHA256 and byte count; copy or rename to filename without extracting or recompressing."
     }
   ],
-  "hosting_status": "NOT_YET_ASSIGNED"
+  "hosting_status": "PRIVATE_KAGGLE_VERSION_1",
+  "source": {
+    "platform": "Kaggle",
+    "dataset_ref": "mahrouch/c1-reproduction-archives-v1",
+    "version": 1,
+    "version_url": "https://www.kaggle.com/datasets/mahrouch/c1-reproduction-archives-v1/versions/1",
+    "visibility": "private",
+    "access": "Authenticated Kaggle account with permission to this dataset",
+    "direct_public_download_available": false
+  }
 }

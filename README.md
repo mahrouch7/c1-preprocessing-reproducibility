@@ -28,6 +28,32 @@ The historical diagnostic collection, local path configuration, credentials,
 environments, checkpoints and manuscript drafts are not included. Large data
 archives are distributed separately; do not commit them to source Git.
 
+## Data archives: private Kaggle version 1
+
+The two companion archives are available to authorized accounts in
+[Kaggle dataset version 1](https://www.kaggle.com/datasets/mahrouch/c1-reproduction-archives-v1/versions/1)
+(`mahrouch/c1-reproduction-archives-v1`, version **1**). This dataset and the
+GitHub repository are private; access is granted separately on each platform.
+The link identifies a dataset page, not an anonymous direct-download endpoint.
+
+| Original ZIP filename | Filename on Kaggle |
+| --- | --- |
+| `C1_predictions_metadata.zip` | `C1_predictions_metadata.zip.bin` |
+| `C1_clean_windows_features.zip` | `C1_clean_windows_features.zip.bin` |
+
+The `.bin` suffix is for transport only: the files contain the original ZIP
+bytes. Download **version 1**, verify each size and SHA256 against
+[`data/archives.json`](data/archives.json), and copy or rename the two files to
+the original ZIP filenames above without extracting or recompressing them.
+Keep the ZIPs together outside this repository and pass that folder to
+`Reproduce.ps1 -ArchiveRoot`. The Kaggle README provides a PowerShell copy/hash
+example; the restorer also verifies ZIP and extracted-member hashes.
+
+The catalogue records the restricted dataset location and filename mapping.
+Its `download_url` fields remain `null` because no public, direct file-download
+URL is asserted. Updating this documentation does not change either resource's
+visibility or the archive contents.
+
 ## Reproduce the saved results
 
 The validated platform is **Windows x64 with CPython 3.12**. A GPU is not needed
@@ -92,6 +118,6 @@ Run `python verify_release.py` to check the assembly inventory without importing
 scientific packages. Configure ignored local paths and keep reproduction outputs
 outside the source tree. The source manifest preserves frozen file bytes.
 
-This local assembly does not create a Git repository or publish anything. Public
-archive URLs remain to be filled with verified links in `data/archives.json`;
-the assembler does not claim that archives are already publicly accessible.
+The code is hosted in a private GitHub repository. The companion archives are
+hosted in the private Kaggle version linked above. Neither location currently
+provides anonymous public access; the local assembler itself publishes nothing.
