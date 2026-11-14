@@ -1259,7 +1259,7 @@
   "original_source_bytes_preserved": true,
   "reproduction_scope": "17 comparison tables from archived predictions; 5 charts from frozen plotting inputs",
   "runtime_of_this_assembled_layout": "NOT_RUN",
-  "publication_performed": false,
+  "publication_performed": true,
   "documentation_update": {
     "decision": "C1-D203",
     "prepared_tunis": "2026-11-14T00:00:00+01:00",
@@ -1274,6 +1274,9 @@
     ],
     "dataset_version_url": "https://www.kaggle.com/datasets/mahrouch/c1-reproduction-archives-v1/versions/1",
     "scientific_sources_changed": false,
-    "visibility_change_requested": true
+    "visibility_change_requested": true,
+    "github_public_verified": true,
+    "kaggle_public_verified": true,
+    "publication_verified_tunis": "2026-11-14"
   }
 }
