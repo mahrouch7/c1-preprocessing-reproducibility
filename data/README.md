@@ -7,10 +7,11 @@
 2. `C1_clean_windows_features.zip`: clean six-channel windows and frozen feature
    arrays needed by the preserved data/feature contract.
 
-The source repository does not contain these large archives. Public download URLs
-have not yet been assigned; `null` in the catalogue means no public location is
-being claimed. Replace it only with the verified archive location. Keep both ZIPs
-together outside the source repository and supply that directory to Reproduce.ps1.
+The source repository does not contain these large archives. They are publicly
+released through the versioned Kaggle location recorded in `archives.json`.
+The per-file `download_url` values remain `null` because no stable direct URLs are
+asserted. Keep both ZIPs together outside the source repository and supply that
+directory to Reproduce.ps1.
 The restorer verifies full ZIP hashes and all declared extracted member hashes.
 
 Original C1 data and figures are licensed under CC BY 4.0. Retain the licence,

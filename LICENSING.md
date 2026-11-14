@@ -41,5 +41,6 @@ these figures in research. The final article reference will be added to
 Until then, the active citation metadata identify the software package only.
 This scholarly request adds no condition to the standard MIT or CC BY 4.0 terms.
 
-No public repository address, article DOI or acceptance date is asserted by these
-files. Applying the licences locally does not publish the package.
+The public source repository is
+https://github.com/Mahrouch7/c1-preprocessing-reproducibility. No article DOI or
+acceptance date is asserted by these files.

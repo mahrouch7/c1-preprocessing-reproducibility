@@ -856,8 +856,8 @@
     },
     {
       "path": "LICENSING.md",
-      "sha256": "22b8a93dd26a628b4cdd06f291c51e25e23701853c97e90a587f8a668c8fa548",
-      "bytes": 2546,
+      "sha256": "d9600e618024d9f4b1e529a96d22787433fb648de20e7fd859133d43959aae79",
+      "bytes": 2554,
       "role": "package_adapter_or_documentation"
     },
     {
@@ -868,8 +868,8 @@
     },
     {
       "path": "CITATION.cff",
-      "sha256": "1864aba08da08f7889d8ee14204deb27be8c58a7cd775715c6ad38b06f9b8d3b",
-      "bytes": 1423,
+      "sha256": "29861acfeb07a717e78a8433e144f52c4bbf5a7729fbb445c3d0d148dbaf6eeb",
+      "bytes": 1549,
       "role": "package_adapter_or_documentation"
     },
     {
@@ -1198,8 +1198,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "db067aebdcaa6a3c2c792b24a3b8be602238e165d079cadc8521d64e658d41f6",
-      "bytes": 6881,
+      "sha256": "aafad951a93eba5df7375caabcb203a20d969977baf150aef331c6c0cf95b227",
+      "bytes": 6956,
       "role": "release_documentation_or_wrapper"
     },
     {
@@ -1216,14 +1216,14 @@
     },
     {
       "path": "data/README.md",
-      "sha256": "227b1fa9c74a02f02e6468d5bad1ce6fd58a90661b372645a530e8d88a3fcd34",
-      "bytes": 1135,
+      "sha256": "e1cafa2ba7026b8848695e7ad3785384bd088bf5bf83cd3811a18bae2859ed2f",
+      "bytes": 1154,
       "role": "release_documentation_or_wrapper"
     },
     {
       "path": "data/archives.json",
-      "sha256": "6be272bd2b536ea9f12eb76f365902575ba62434c6d35bf17c8439dfa71947bc",
-      "bytes": 1565,
+      "sha256": "e3541a392d2c2f38de447f256cf8e23e365dc29beeebf2a34f4e2630b3355f6a",
+      "bytes": 1544,
       "role": "release_documentation_or_wrapper"
     },
     {
@@ -1261,16 +1261,19 @@
   "runtime_of_this_assembled_layout": "NOT_RUN",
   "publication_performed": false,
   "documentation_update": {
-    "decision": "C1-D202",
-    "prepared_tunis": "2026-11-12T13:08:05+01:00",
+    "decision": "C1-D203",
+    "prepared_tunis": "2026-11-14T00:00:00+01:00",
     "base_git_commit": "4d73fa3848298e99317cdec6e7a7f22c8a496478",
     "base_manifest_sha256": "93e6f3150ec12d9e4a3c9f28db10560cd147f0b63625fa2474b8ee1a1244780a",
     "changed_documentation": [
       "README.md",
-      "data/archives.json"
+      "data/README.md",
+      "data/archives.json",
+      "CITATION.cff",
+      "LICENSING.md"
     ],
     "dataset_version_url": "https://www.kaggle.com/datasets/mahrouch/c1-reproduction-archives-v1/versions/1",
     "scientific_sources_changed": false,
-    "visibility_change_requested": false
+    "visibility_change_requested": true
   }
 }

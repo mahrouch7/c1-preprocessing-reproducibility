@@ -15,10 +15,12 @@ authors:
   - family-names: Sakly
     given-names: Anis
 license: MIT
+repository-code: "https://github.com/Mahrouch7/c1-preprocessing-reproducibility"
+url: "https://github.com/Mahrouch7/c1-preprocessing-reproducibility"
 
 # Complete only after article acceptance and verification of the final metadata.
 # The software title above is not a proposed or final article title.
-# Add the real public repository URL and released version when available.
+# Add the released version or DOI when available.
 # Uncomment and complete preferred-citation to make GitHub cite the article:
 # preferred-citation:
 #   type: article

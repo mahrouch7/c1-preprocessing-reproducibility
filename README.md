@@ -28,13 +28,14 @@ The historical diagnostic collection, local path configuration, credentials,
 environments, checkpoints and manuscript drafts are not included. Large data
 archives are distributed separately; do not commit them to source Git.
 
-## Data archives: private Kaggle version 1
+## Data archives: public Kaggle version 1
 
-The two companion archives are available to authorized accounts in
+The two companion archives are publicly released in
 [Kaggle dataset version 1](https://www.kaggle.com/datasets/mahrouch/c1-reproduction-archives-v1/versions/1)
-(`mahrouch/c1-reproduction-archives-v1`, version **1**). This dataset and the
-GitHub repository are private; access is granted separately on each platform.
-The link identifies a dataset page, not an anonymous direct-download endpoint.
+(`mahrouch/c1-reproduction-archives-v1`, version **1**). The dataset and this
+GitHub repository are public. The link identifies the versioned dataset page;
+downloads are available through Kaggle's web interface or API rather than a
+stable per-file URL stored in this repository.
 
 | Original ZIP filename | Filename on Kaggle |
 | --- | --- |
@@ -49,10 +50,10 @@ Keep the ZIPs together outside this repository and pass that folder to
 `Reproduce.ps1 -ArchiveRoot`. The Kaggle README provides a PowerShell copy/hash
 example; the restorer also verifies ZIP and extracted-member hashes.
 
-The catalogue records the restricted dataset location and filename mapping.
-Its `download_url` fields remain `null` because no public, direct file-download
-URL is asserted. Updating this documentation does not change either resource's
-visibility or the archive contents.
+The catalogue records the public dataset location and filename mapping. Its
+`download_url` fields remain `null` because no stable per-file URL is asserted;
+the versioned Kaggle page is the authoritative public access point. Publication
+does not alter the archive bytes or their recorded hashes.
 
 ## Reproduce the saved results
 
@@ -108,8 +109,8 @@ figures use **CC BY 4.0** (`LICENSE-DATA-CC-BY-4.0.txt`). See `LICENSING.md` and
 
 **Please cite the associated C1 article when using this code, these data or these
 figures in research.** The final article reference will be added to `CITATION.cff`
-after acceptance. The active citation currently identifies the software only;
-no DOI, public repository address or acceptance date has been invented. This
+after acceptance. The active citation currently identifies the software and
+public repository; no article DOI or acceptance date has been invented. This
 scholarly request adds no restriction to the standard licence terms.
 
 ## Integrity and release status
@@ -118,6 +119,7 @@ Run `python verify_release.py` to check the assembly inventory without importing
 scientific packages. Configure ignored local paths and keep reproduction outputs
 outside the source tree. The source manifest preserves frozen file bytes.
 
-The code is hosted in a private GitHub repository. The companion archives are
-hosted in the private Kaggle version linked above. Neither location currently
-provides anonymous public access; the local assembler itself publishes nothing.
+The code is publicly hosted at
+https://github.com/Mahrouch7/c1-preprocessing-reproducibility. The companion
+archives are publicly hosted in the versioned Kaggle dataset linked above. The
+local assembler itself does not publish or modify either remote resource.

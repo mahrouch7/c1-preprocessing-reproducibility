@@ -24,14 +24,14 @@
       "restore_instruction": "Verify SHA256 and byte count; copy or rename to filename without extracting or recompressing."
     }
   ],
-  "hosting_status": "PRIVATE_KAGGLE_VERSION_1",
+  "hosting_status": "PUBLIC_KAGGLE_VERSION_1",
   "source": {
     "platform": "Kaggle",
     "dataset_ref": "mahrouch/c1-reproduction-archives-v1",
     "version": 1,
     "version_url": "https://www.kaggle.com/datasets/mahrouch/c1-reproduction-archives-v1/versions/1",
-    "visibility": "private",
-    "access": "Authenticated Kaggle account with permission to this dataset",
+    "visibility": "public",
+    "access": "Public Kaggle dataset page and Kaggle API",
     "direct_public_download_available": false
   }
 }
